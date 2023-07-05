@@ -56,7 +56,7 @@ const Form = ({ type, post, setPost, submitting, handleSubmit }) => {
           >
             { submitting
               ? (type === "Create"
-                  ? "Creating"
+                  ? "Creating..."
                   : `${type}ing...`
                 )
               : type
