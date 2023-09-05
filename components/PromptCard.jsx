@@ -1,16 +1,32 @@
 "use client";
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Image from "next/image";
 import { useSession } from "next-auth/react";
 import { usePathname, useRouter } from "next/navigation";
 
-const PromptCard = ({ post, handleTagClick, handleEdit, handleDelete }) => {
+const PromptCard = ({ post, handleTagClick, handleEdit, handleDelete, handleReport, hideReportBtn = false }) => {
   const { data: session } = useSession();
   const pathName = usePathname();
   const router = useRouter();
 
   const [copied, setCopied] = useState("");
+  const [isReportBtn, setIsReportBtn] = useState(false);
+
+  useEffect(() => {
+    setReportBtnRender()
+  }, []);
+
+  const setReportBtnRender = () => {
+    const sessionUser = session?.user.id;
+    const postCreator = post.creator._id;
+
+    if (sessionUser) {
+      const checkConditions = !hideReportBtn && sessionUser !== postCreator;
+
+      setIsReportBtn(checkConditions);
+    }
+  }
 
   const handleProfileClick = () => {
     if (post.creator._id === session?.user.id)  {
@@ -27,6 +43,7 @@ const PromptCard = ({ post, handleTagClick, handleEdit, handleDelete }) => {
 
     setTimeout(() => setCopied(""), 3000);
   }
+
 
   return (
     <div className="prompt_card">
@@ -52,8 +69,23 @@ const PromptCard = ({ post, handleTagClick, handleEdit, handleDelete }) => {
             </p>
           </div>
         </div>
-
-        <div className="copy_btn" onClick={handleCopy}>
+        {isReportBtn ?
+          (
+            <>
+              <div className="card_btn" onClick={() => handleReport(post)}>
+                <Image
+                  src={"/assets/icons/report.svg"}
+                  alt={"report_icon"}
+                  width={12}
+                  height={12}
+                  title={"Report"}
+                />
+              </div>
+            </>
+          ) : (
+          <></>
+        )}
+        <div className="card_btn" onClick={handleCopy}>
           <Image
             src={
               copied === post.prompt
@@ -63,6 +95,7 @@ const PromptCard = ({ post, handleTagClick, handleEdit, handleDelete }) => {
             alt={copied === post.prompt ? "tick_icon" : "copy_icon"}
             width={12}
             height={12}
+            title={"Copy"}
           />
         </div>
       </div>

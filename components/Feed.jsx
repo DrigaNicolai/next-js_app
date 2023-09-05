@@ -3,8 +3,9 @@
 import { useState, useEffect } from "react";
 
 import PromptCard from "@components/PromptCard";
+import ReportModal from "@components/ReportModal";
 
-const PromptCardList = ({ data, handleTagClick }) => {
+const PromptCardList = ({ data, handleTagClick, handleReport }) => {
   return (
     <div className="mt-16 prompt_layout">
       { data.map((post) => (
@@ -12,6 +13,7 @@ const PromptCardList = ({ data, handleTagClick }) => {
             key={post._id}
             post={post}
             handleTagClick={handleTagClick}
+            handleReport={handleReport}
           />
         )
       )}
@@ -26,6 +28,9 @@ const Feed = () => {
   const [searchText, setSearchText] = useState("");
   const [searchTimeout, setSearchTimeout] = useState(null);
   const [searchedResults, setSearchedResults] = useState([]);
+
+  const [showReportModal, setShowReportModal] = useState(false);
+  const [reportedPost, setReportedPost] = useState({});
 
   const fetchPosts = async () => {
     const response = await fetch("/api/prompt");
@@ -71,6 +76,11 @@ const Feed = () => {
     setSearchedResults(searchResult);
   };
 
+  const handleReport = (post) => {
+    setShowReportModal(true);
+    setReportedPost(post);
+  }
+
   return (
     <section className="feed">
       <form className="relative w-full flex-center">
@@ -89,10 +99,21 @@ const Feed = () => {
         <PromptCardList
           data={searchedResults}
           handleTagClick={handleTagClick}
+          handleReport={handleReport}
         />
       ) : (
-        <PromptCardList data={allPosts} handleTagClick={handleTagClick} />
+        <PromptCardList
+          data={allPosts}
+          handleTagClick={handleTagClick}
+          handleReport={handleReport}
+        />
       )}
+
+      <ReportModal
+        isVisible={showReportModal}
+        onClose={() => setShowReportModal(false)}
+        reportedPost={reportedPost}
+      />
     </section>
   )
 };
