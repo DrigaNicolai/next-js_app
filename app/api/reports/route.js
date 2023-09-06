@@ -5,7 +5,7 @@ export const GET = async (req) => {
   try {
     await connectToDB();
 
-    const reports = await Report.find({}).populate("victim");
+    const reports = await Report.find({}).populate("victim").populate("prompt");
 
     return new Response(JSON.stringify(reports), { status: 200 });
   } catch (error) {
@@ -13,26 +13,29 @@ export const GET = async (req) => {
   }
 }
 
-export const DELETE = async (req, { query }) => {
+export const DELETE = async (req) => {
+  const { prompt } = await req.body;
+
   try {
     await connectToDB();
 
-    const { prompt } = req.query;
+    console.log(prompt, "prompt");
+1
+    // const promptId = query.prompt;
 
-    console.log(prompt);
-
-    if (!prompt) {
+    /*if (!promptId) {
       return new Response("Prompt is required", { status: 400 });
-    }
+    }*/
+    // const reports = await Report.find({ prompt: prompt._id });
 
-    const deletedReport = await Report.deleteOne({ prompt });
+    // console.log(reports);
 
-    if (!deletedReport) {
+    /*if (!deletedReport) {
       return new Response("Report not found", { status: 404 });
-    }
+    }*/
 
     return new Response("Connected report was successfully deleted", { status: 200 });
   } catch (error) {
-    return new Response("Error Deleting Prompt", { status: 500 });
+    return new Response("Error Deleting connected report", { status: 500 });
   }
 }

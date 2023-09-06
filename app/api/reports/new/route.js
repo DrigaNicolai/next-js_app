@@ -8,8 +8,8 @@ export const POST = async (req) => {
     await connectToDB();
 
     const newReport = new Report({
-      victim: userId,
       prompt: promptId,
+      victim: userId,
       message
     });
 

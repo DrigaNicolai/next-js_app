@@ -23,7 +23,7 @@ const ReportForm = ({ message, setMessage, submitting, handleSubmit }) => {
         className="px-5 py-1.5 text-sm bg-primary-orange rounded-full text-white"
       >
         { submitting
-          ? "Submitting"
+          ? "Submitting..."
           : "Submit"
         }
       </button>
