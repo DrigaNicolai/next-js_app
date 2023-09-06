@@ -40,13 +40,6 @@ const MyProfile = () => {
           method: "DELETE"
         });
 
-        await fetch(`/api/reports`, {
-          method: "DELETE",
-          body: JSON.stringify({
-            prompt: post._id.toString()
-          }),
-        });
-
         const filteredPosts = myPosts.filter((item) => item._id !== post._id);
 
         setMyPosts(filteredPosts);

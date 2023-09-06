@@ -47,7 +47,9 @@ export const DELETE =  async (req, { params }) => {
   try {
     await connectToDB();
 
-    await Prompt.findByIdAndDelete(params.id);
+    const prompt = await Prompt.findOne({ _id: params.id });
+    await prompt.deleteOne();
+    // TODO: WIP
 
     // await Report.deleteOne({ prompt: params.id });
 
