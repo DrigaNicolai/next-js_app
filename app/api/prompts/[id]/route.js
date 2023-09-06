@@ -49,6 +49,8 @@ export const DELETE =  async (req, { params }) => {
 
     await Prompt.findByIdAndDelete(params.id);
 
+    // await Report.deleteOne({ prompt: params.id });
+
     return new Response("Prompt deleted successfully", { status: 200 });
   } catch (error) {
     return new Response("Error Updating Prompt", { status: 500 });

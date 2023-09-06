@@ -17,6 +17,6 @@ export const POST = async (req) => {
 
     return new Response(JSON.stringify(newReport), { status: 201 });
   } catch (error) {
-    return new Response("Failed to send report", { status: 500 });
+    return new Response("Failed to send reports", { status: 500 });
   }
 }

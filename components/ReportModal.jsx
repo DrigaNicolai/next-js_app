@@ -15,6 +15,7 @@ const ReportModal = ({ isVisible, onClose, reportedPost }) => {
 
   const handleClose = (e) => {
     if (e.target.id === "wrapper") {
+      setReportMsg("");
       onClose();
     }
   }
@@ -26,7 +27,7 @@ const ReportModal = ({ isVisible, onClose, reportedPost }) => {
 
     try {
       console.log("Successfully submitted");
-      const response = await fetch("/api/report/new", {
+      const response = await fetch("/api/reports/new", {
         method: "POST",
         body: JSON.stringify({
           promptId: reportedPost._id,
@@ -42,6 +43,7 @@ const ReportModal = ({ isVisible, onClose, reportedPost }) => {
       console.log(error);
     } finally {
       setSubmitting(false);
+      setReportMsg("");
       onClose();
     }
   }

@@ -33,7 +33,7 @@ const Feed = () => {
   const [reportedPost, setReportedPost] = useState({});
 
   const fetchPosts = async () => {
-    const response = await fetch("/api/prompt");
+    const response = await fetch("/api/prompts");
     const data = await response.json();
 
     setAllPosts(data);

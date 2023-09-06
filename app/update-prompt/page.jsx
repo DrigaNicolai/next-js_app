@@ -15,7 +15,7 @@ const EditPrompt = () => {
 
   useEffect(() => {
     const getPromptDetails = async () => {
-      const response = await fetch(`/api/prompt/${promptId}`);
+      const response = await fetch(`/api/prompts/${promptId}`);
       const data = await response.json();
 
       setPost({
@@ -38,7 +38,7 @@ const EditPrompt = () => {
     }
 
     try {
-      const response = await fetch(`/api/prompt/${promptId}`,{
+      const response = await fetch(`/api/prompts/${promptId}`,{
         method: "PATCH",
         body: JSON.stringify({
           prompt: post.prompt,
