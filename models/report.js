@@ -3,14 +3,19 @@ import { Schema, model, models } from "mongoose";
 const ReportSchema = new Schema({
   victim: {
     type: Schema.Types.ObjectId,
-    ref: "User"
+    ref: "User",
+    required: [true, "User should be authenticated to send a report."]
   },
   prompt: {
     type: Schema.Types.ObjectId,
-    ref: "Prompt"
+    ref: "Prompt",
+    required: [true, "Prompt is required to send a report."]
   },
   message: {
     type: String,
+    match: [
+      /^.{5,255}$/, "Invalid report message, it should contain 5-255 symbols."
+    ],
     required: [true, "Message for report is required."]
   }
 });
