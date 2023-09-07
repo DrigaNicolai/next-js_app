@@ -47,11 +47,13 @@ export const DELETE =  async (req, { params }) => {
   try {
     await connectToDB();
 
-    const prompt = await Prompt.findOne({ _id: params.id });
-    await prompt.deleteOne();
-    // TODO: WIP
+    const prompt = await Prompt.findById(params.id);
 
-    // await Report.deleteOne({ prompt: params.id });
+    if (!prompt) {
+      return new Response("Prompt not found", { status: 404 });
+    }
+
+    await Prompt.deleteOne(prompt);
 
     return new Response("Prompt deleted successfully", { status: 200 });
   } catch (error) {

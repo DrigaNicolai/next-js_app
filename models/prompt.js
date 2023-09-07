@@ -16,23 +16,21 @@ const PromptSchema = new Schema({
   }
 });
 
-PromptSchema.pre("deleteOne", { document: true, query: false }, async function (next)  {
-  const prompt = await this.model
-    .findOne(this.getFilter(), { _id: 1 })
-    .lean();
+PromptSchema.pre("deleteOne", { document: true, query: true }, async function (next)  {
+  try {
+    console.log("Middleware is triggered");
+    const prompt = await this.model.findOne(this.getFilter(), { _id: 1 }).lean();
+    console.log("Found prompt:", prompt);
 
-  // TODO: WIP
-  /*const reports = await Report.find({ prompt: prompt._id });
-
-  if (reports.length) {
     await Report.deleteMany({ prompt: prompt._id });
-  }*/
+    console.log("Deleted associated reports");
 
-  await Report.deleteMany({ prompt: prompt._id });
-
-  next();
+    next();
+  } catch (error) {
+    console.error("Error in middleware:", error);
+    next(error);
+  }
 });
-
 
 const Prompt = models.Prompt || model("Prompt", PromptSchema);
 
