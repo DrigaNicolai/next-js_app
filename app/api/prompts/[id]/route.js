@@ -14,7 +14,7 @@ export const GET = async (req, { params }) => {
 
     return new Response(JSON.stringify(prompt), { status: 200 });
   } catch (error) {
-    return new Response("Failed to fetch all prompts", { status: 500 });
+    return new Response("Failed to fetch prompt", { status: 500 });
   }
 }
 
@@ -38,7 +38,7 @@ export const PATCH = async (req, { params }) => {
 
     return new Response(JSON.stringify(existingPrompt), { status: 200 });
   } catch (error) {
-    return new Response("Error Updating Prompt", { status: 500 });
+    return new Response("Error updating prompt", { status: 500 });
   }
 }
 
@@ -57,6 +57,6 @@ export const DELETE =  async (req, { params }) => {
 
     return new Response("Prompt deleted successfully", { status: 200 });
   } catch (error) {
-    return new Response("Error Updating Prompt", { status: 500 });
+    return new Response("Error deleting prompt", { status: 500 });
   }
 }

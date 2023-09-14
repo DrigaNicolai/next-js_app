@@ -13,7 +13,7 @@ export const GET = async (req, { params }) => {
 
     return new Response(JSON.stringify(report), { status: 200 });
   } catch (error) {
-    return new Response("Failed to fetch all reports", { status: 500 });
+    return new Response("Failed to fetch report", { status: 500 });
   }
 }
 
@@ -21,11 +21,16 @@ export const DELETE =  async (req, { params }) => {
   try {
     await connectToDB();
 
-    await Report.findByIdAndDelete(params.id);
+    const report = await Report.findById(params.id);
 
-    // await Report.deleteOne({ prompts: params.id });
+    if (!report) {
+      return new Response("Report not found", { status: 404 });
+    }
+
+    await Report.deleteOne(report);
+
     return new Response("Prompt deleted successfully", { status: 200 });
   } catch (error) {
-    return new Response("Error Updating Prompt", { status: 500 });
+    return new Response("Error deleting report", { status: 500 });
   }
 }
