@@ -33,7 +33,7 @@ UserSchema.pre("deleteOne", { document: true, query: true }, async function (nex
     console.log("User Middleware is triggered");
     const user = await this.model.findOne(this.getFilter(), { _id: 1 }).lean();
 
-    await Prompt.deleteMany({ creator: user._id });
+    await Prompt.deleteMany({ createdBy: user._id });
 
     next();
   } catch (error) {
