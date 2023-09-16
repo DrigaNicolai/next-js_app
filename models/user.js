@@ -1,5 +1,6 @@
 import { Schema, model, models } from "mongoose";
 import Prompt from "@models/prompt";
+import Warning from "@models/warning";
 
 const UserSchema = new Schema({
   email: {
@@ -34,6 +35,8 @@ UserSchema.pre("deleteOne", { document: true, query: true }, async function (nex
     const user = await this.model.findOne(this.getFilter(), { _id: 1 }).lean();
 
     await Prompt.deleteMany({ createdBy: user._id });
+
+    await Warning.deleteMany({ intruder_id: user._id });
 
     next();
   } catch (error) {
