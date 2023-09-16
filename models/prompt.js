@@ -40,6 +40,21 @@ PromptSchema.pre("deleteOne", { document: true, query: true }, async function (n
   }
 });
 
+PromptSchema.pre("deleteMany", { document: true, query: true }, async function (next)  {
+  try {
+    console.log("Prompt delete many middleware")
+    const prompts = await this.model.find(this.getFilter(), { _id: 1 }).lean();
+
+    for (const prompt of prompts) {
+      await Report.deleteOne({ prompt: prompt._id });
+    }
+
+    next();
+  } catch (error) {
+    next(error);
+  }
+});
+
 const Prompt = models.Prompt || model("Prompt", PromptSchema);
 
 export default Prompt;
