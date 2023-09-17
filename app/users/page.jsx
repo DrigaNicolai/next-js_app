@@ -9,9 +9,20 @@ const Users = () => {
   const router = useRouter();
 
   useEffect(() => {
+    const fetchUsers = async () => {
+      const response = await fetch(`/api/users`,{
+        method: "GET"
+      });
+      const data = await response.json();
+
+      console.log(data);
+    }
+
     if (!user) {
       router.replace("/");
     }
+
+    fetchUsers();
   }, [user]);
 
   return (
