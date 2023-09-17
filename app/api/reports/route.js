@@ -5,7 +5,7 @@ export const GET = async (req) => {
   try {
     await connectToDB();
 
-    const reports = await Report.find({}).populate("victim").populate("prompt");
+    const reports = await Report.find({}).populate("victim_id").populate("prompt_id");
 
     return new Response(JSON.stringify(reports), { status: 200 });
   } catch (error) {
