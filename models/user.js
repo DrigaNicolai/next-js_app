@@ -1,4 +1,6 @@
 import { Schema, model, models } from "mongoose";
+import Prompt from "@models/prompt";
+import Warning from "@models/warning";
 
 const UserSchema = new Schema({
   email: {
@@ -18,6 +20,27 @@ const UserSchema = new Schema({
   },
   image: {
     type: String
+  },
+  role_id: {
+    type: Schema.Types.ObjectId,
+    required: [true, "Role is required"],
+    ref: "Role",
+    default: "6505c48adba63bdf1b69486f"
+  }
+});
+
+UserSchema.pre("deleteOne", { document: true, query: true }, async function (next)  {
+  try {
+    console.log("User Middleware is triggered");
+    const user = await this.model.findOne(this.getFilter(), { _id: 1 }).lean();
+
+    await Prompt.deleteMany({ createdBy: user._id });
+
+    await Warning.deleteMany({ intruder_id: user._id });
+
+    next();
+  } catch (error) {
+    next(error);
   }
 });
 

@@ -1,12 +1,12 @@
 import { Schema, model, models } from "mongoose";
 
 const ReportSchema = new Schema({
-  victim: {
+  victim_id: {
     type: Schema.Types.ObjectId,
     ref: "User",
     required: [true, "User should be authenticated to send a report."]
   },
-  prompt: {
+  prompt_id: {
     type: Schema.Types.ObjectId,
     ref: "Prompt",
     required: [true, "Prompt is required to send a report."]
@@ -14,7 +14,7 @@ const ReportSchema = new Schema({
   message: {
     type: String,
     match: [
-      /^.{5,255}$/, "Invalid report message, it should contain 5-255 symbols."
+      /^.{4,255}$/, "Invalid report message, it should contain 4-255 symbols."
     ],
     required: [true, "Message for report is required."]
   }
