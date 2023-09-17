@@ -25,6 +25,6 @@ const WarningSchema = new Schema({
   },
 });
 
-const Warning = models.WarningType || model("Warning", WarningSchema);
+const Warning = models.Warning || model("Warning", WarningSchema);
 
 export default Warning;
