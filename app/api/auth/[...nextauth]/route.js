@@ -2,6 +2,7 @@ import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 
 import User from "@models/user";
+import Role from "@models/role";
 import { connectToDB } from "@utils/database";
 
 const handler = NextAuth({
@@ -13,9 +14,10 @@ const handler = NextAuth({
   ],
   callbacks: {
     async session({ session }) {
-      const sessionUser = await User.findOne({ email: session.user.email });
+      const sessionUser = await User.findOne({ email: session.user.email }).populate("role_id");
 
       session.user.id = sessionUser._id.toString();
+      session.user.role = String(sessionUser.role_id.name);
 
       return session;
     },
