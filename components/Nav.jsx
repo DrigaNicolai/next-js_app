@@ -10,6 +10,7 @@ const Nav = () => {
 
   const [providers, setProviders] = useState(null);
   const [toggleDropdown, setToggleDropdown] = useState(false);
+  const [userRoleName, setUserRoleName] = useState("undefined");
 
   useEffect(() => {
     const setUpProviders = async () => {
@@ -20,6 +21,13 @@ const Nav = () => {
 
     setUpProviders();
   }, []);
+
+  useEffect(() => {
+    if (session) {
+      setUserRoleName(session?.user.role);
+    }
+  }, [session]);
+
 
   return (
     <nav className="flex-between w-full mb-16 pt-3">
@@ -33,6 +41,13 @@ const Nav = () => {
         />
         <p className="logo_text">Social Posts</p>
       </Link>
+
+      <div>{ userRoleName }</div>
+      <div className="flex gap-2 flex-center">
+        <Link href="/users" className="flex gap-2 flex-center">
+          <p className="modules_text">Users</p>
+        </Link>
+      </div>
 
       {/* Desktop Navigation */}
       <div className="sm:flex hidden">
