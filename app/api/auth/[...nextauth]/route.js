@@ -23,7 +23,7 @@ const handler = NextAuth({
       session.user.id = sessionUser._id.toString();
       session.user.role = String(sessionUser.role_id.name);
 
-      session.token = jwt.sign(session.user, secret);
+      session.token = jwt.sign(session.user, secret, { expiresIn: "24h" });
 
       return session;
     },
