@@ -4,19 +4,28 @@ import Role from "@models/role";
 import {getSession} from "next-auth/react";
 import {useUserRole} from "@middleware/useUserRole";
 import {useSession} from "next-auth/react";
-import isAdmin from "@middleware/api/isAdmin";
+import {headers} from "next/headers";
+import {getServerSession} from "next-auth/next";
+import jwt from "jsonwebtoken";
 
 export const GET = async (req, res) => {
   try {
-    // await isAdmin(req, res);
-
     await connectToDB();
 
-    await isAdmin(req, res);
+    const headersInstance = headers()
+    const authorization = headersInstance.get('authorization')
 
-    const session = await getSession({ req });
-    console.log(session);
-    console.log(JSON.stringify(req));
+    // console.log(authorization, "auth head");
+
+    const token = authorization.split(" ")[1];
+
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+    console.log(decoded, "decoded");
+    // const session = await getServerSession({});
+    // console.log(session, "session");
+    // console.log(token, "token");
+    // console.log(JSON.stringify(req), "req");
 
 
     /*const session = await getSession({ req });

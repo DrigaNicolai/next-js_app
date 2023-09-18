@@ -1,9 +1,13 @@
 import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 
+import jwt from "jsonwebtoken";
+
 import User from "@models/user";
 import Role from "@models/role";
 import { connectToDB } from "@utils/database";
+
+const secret = process.env.JWT_SECRET;
 
 const handler = NextAuth({
   providers: [
@@ -18,6 +22,8 @@ const handler = NextAuth({
 
       session.user.id = sessionUser._id.toString();
       session.user.role = String(sessionUser.role_id.name);
+
+      session.token = jwt.sign(session.user, secret);
 
       return session;
     },

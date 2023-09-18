@@ -25,6 +25,8 @@ const Nav = () => {
   useEffect(() => {
     if (session) {
       setUserRoleName(session?.user.role);
+
+      // console.log(session, "session");
     }
   }, [session]);
 
