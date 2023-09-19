@@ -1,11 +1,12 @@
 "use client";
 
-import {Session, SessionProvider} from "next-auth/react";
+import {SessionProvider} from "next-auth/react";
 import React from "react";
+import CustomSession from "@ts/interface/customAuth";
 
 interface IProvider {
   children: React.ReactNode;
-  session?: Session | any;
+  session?: CustomSession | any;
 }
 
 const Provider = ({ children, session }: IProvider) => {
