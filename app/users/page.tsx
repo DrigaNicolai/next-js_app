@@ -3,15 +3,16 @@
 import { useUserRole } from "@middleware/useUserRole";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { Session, useSession } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import DataTable from "@components/DataTable";
 import { AppRouterInstance } from "@node_modules/next/dist/shared/lib/app-router-context";
 import { IUser } from "@ts/interface/user";
+import CustomSession from "@ts/interface/customAuth";
 
 const Users = () => {
   const user = useUserRole(["admin", "user"]) as string; // TODO: Remove user
   const router = useRouter() as AppRouterInstance;
-  const { data: session } = useSession() as unknown as Session;
+  const { data: session } = useSession() as unknown as CustomSession;
   const [users, setUsers] = useState([] as Array<IUser>);
   const [headers, setHeaders] = useState([
     {text: "Name", value: "name"},

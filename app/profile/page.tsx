@@ -1,16 +1,17 @@
 "use client";
 
 import { useState, useEffect } from 'react';
-import {Session, useSession} from "next-auth/react";
+import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
 import Profile from "@components/Profile";
 import {AppRouterInstance} from "@node_modules/next/dist/shared/lib/app-router-context";
 import {IPrompt} from "@ts/interface/prompt";
+import CustomSession from "@ts/interface/customAuth";
 
 const MyProfile = () => {
   const router = useRouter() as AppRouterInstance;
-  const { data: session } = useSession() as unknown as Session;
+  const { data: session } = useSession() as unknown as CustomSession;
 
   const [myPosts, setMyPosts] = useState([] as Array<IPrompt>);
 

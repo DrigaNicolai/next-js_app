@@ -2,10 +2,11 @@
 
 import React, { useState, useEffect } from 'react';
 import Image from "next/image";
-import { Session, useSession } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import { usePathname, useRouter } from "next/navigation";
 import { IPrompt } from "@ts/interface/prompt";
 import { AppRouterInstance } from "@node_modules/next/dist/shared/lib/app-router-context";
+import CustomSession from "@ts/interface/customAuth";
 
 interface IPromptCard {
   post: IPrompt;
@@ -17,7 +18,7 @@ interface IPromptCard {
 }
 
 const PromptCard = ({ post, handleTagClick, handleEdit, handleDelete, handleReport, hideReportBtn = false }: IPromptCard) => {
-  const { data: session } = useSession() as unknown as Session;
+  const { data: session } = useSession() as unknown as CustomSession;
   const pathName: string = usePathname();
   const router: AppRouterInstance = useRouter();
 

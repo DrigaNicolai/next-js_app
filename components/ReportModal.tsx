@@ -3,8 +3,9 @@
 import React, { useState } from "react";
 import PromptCard from "@components/PromptCard";
 import ReportForm from "@components/ReportForm";
-import {Session, useSession} from "next-auth/react";
+import {useSession} from "next-auth/react";
 import { IPrompt } from "@ts/interface/prompt";
+import CustomSession from "@ts/interface/customAuth";
 
 interface IReportModal {
   isVisible: boolean;
@@ -13,7 +14,7 @@ interface IReportModal {
 }
 
 const ReportModal = ({ isVisible, onClose, reportedPost }: IReportModal) => {
-  const { data: session } = useSession() as unknown as Session;
+  const { data: session } = useSession() as unknown as CustomSession;
 
   const [reportMsg, setReportMsg] = useState("" as string);
   const [submitting, setSubmitting] = useState(false as boolean);
