@@ -10,7 +10,7 @@ import {IPrompt} from "@ts/interface/prompt";
 
 const MyProfile = () => {
   const router = useRouter() as AppRouterInstance;
-  const { data: session } = useSession() as Session;
+  const { data: session } = useSession() as unknown as Session;
 
   const [myPosts, setMyPosts] = useState([] as Array<IPrompt>);
 

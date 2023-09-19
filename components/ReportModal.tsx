@@ -13,7 +13,7 @@ interface IReportModal {
 }
 
 const ReportModal = ({ isVisible, onClose, reportedPost }: IReportModal) => {
-  const { data: session } = useSession() as Session;
+  const { data: session } = useSession() as unknown as Session;
 
   const [reportMsg, setReportMsg] = useState("" as string);
   const [submitting, setSubmitting] = useState(false as boolean);

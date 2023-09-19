@@ -11,7 +11,7 @@ import { IUser } from "@ts/interface/user";
 const Users = () => {
   const user = useUserRole(["admin", "user"]) as string; // TODO: Remove user
   const router = useRouter() as AppRouterInstance;
-  const { data: session } = useSession() as Session;
+  const { data: session } = useSession() as unknown as Session;
   const [users, setUsers] = useState([] as Array<IUser>);
   const [headers, setHeaders] = useState([
     {text: "Name", value: "name"},

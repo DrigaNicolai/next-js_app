@@ -10,7 +10,7 @@ import {IPrompt} from "@ts/interface/prompt";
 
 const CreatePrompt = () => {
   const router = useRouter() as AppRouterInstance;
-  const { data: session } = useSession() as Session;
+  const { data: session } = useSession() as unknown as Session;
 
   const [submitting, setSubmitting] = useState(false as boolean);
   const [post, setPost] = useState({} as any);

@@ -17,7 +17,7 @@ interface IPromptCard {
 }
 
 const PromptCard = ({ post, handleTagClick, handleEdit, handleDelete, handleReport, hideReportBtn = false }: IPromptCard) => {
-  const { data: session } = useSession() as Session;
+  const { data: session } = useSession() as unknown as Session;
   const pathName: string = usePathname();
   const router: AppRouterInstance = useRouter();
 

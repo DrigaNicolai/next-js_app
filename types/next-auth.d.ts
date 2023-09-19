@@ -1,16 +1,7 @@
 import { Session } from "next-auth/react";
+import CustomSession from "@ts/interface/customAuth";
 
 declare module "next-auth/react" {
-  interface Session {
-    data: {
-      user: {
-        id: string;
-        role: string;
-        name: string;
-        email: string;
-        image: string;
-      };
-      token: string;
-    }
-  }
+  interface Session extends CustomSession {}
 }
+
