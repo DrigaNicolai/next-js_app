@@ -1,8 +1,8 @@
-import mongoose from "mongoose";
+import mongoose, {Connection} from "mongoose";
 
-let isConnected = false; // track the connection
+let isConnected = false as boolean; // track the connection
 
-export const connectToDB = async () => {
+export const connectToDB = async (): Promise<void | Response> => {
   mongoose.set('strictQuery', true);
   mongoose.set('bufferCommands', false); // Disable warning messages in console when is running on
 
@@ -14,6 +14,7 @@ export const connectToDB = async () => {
   try {
     await mongoose.connect(process.env.MONGODB_URI, {
       dbName: "share_prompt",
+      // @ts-ignore
       useNewUrlParser: true,
       useUnifiedTopology: true,
     });

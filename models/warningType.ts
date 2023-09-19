@@ -1,6 +1,11 @@
-import { Schema, model, models } from "mongoose";
+import { Schema, model, models, Document, Model } from "mongoose";
 
-const WarningTypeSchema = new Schema({
+interface IWarningType extends Document {
+  name: string;
+  points_number: number;
+}
+
+const WarningTypeSchema = new Schema<IWarningType>({
   name: {
     type: String,
     match: [
@@ -16,6 +21,6 @@ const WarningTypeSchema = new Schema({
   }
 });
 
-const WarningType = models.WarningType || model("WarningType", WarningTypeSchema);
+const WarningType: Model<IWarningType> = models.WarningType || model<IWarningType>("WarningType", WarningTypeSchema);
 
 export default WarningType;

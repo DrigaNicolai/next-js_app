@@ -1,6 +1,6 @@
 import { useSession } from "next-auth/react";
 
-export function useUserRole(roles) {
+export function useUserRole(roles: Array<string>) {
   const { data: session } = useSession();
 
   /*useEffect(() => {

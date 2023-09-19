@@ -1,6 +1,13 @@
-import { Schema, model, models } from "mongoose";
+import { Schema, model, models, Document, Model, Types } from "mongoose";
 
-const WarningSchema = new Schema({
+interface IWarning extends Document {
+  moderator_id: Types.ObjectId;
+  intruder_id: Types.ObjectId;
+  warning_type_id: Types.ObjectId;
+  comment: string;
+}
+
+const WarningSchema = new Schema<IWarning>({
   moderator_id: {
     type: Schema.Types.ObjectId,
     required: [true, "Moderator is required to create warning"],
@@ -25,6 +32,6 @@ const WarningSchema = new Schema({
   },
 });
 
-const Warning = models.Warning || model("Warning", WarningSchema);
+const Warning: Model<IWarning> = models.Warning || model<IWarning>("Warning", WarningSchema);
 
 export default Warning;

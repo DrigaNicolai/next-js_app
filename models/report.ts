@@ -1,6 +1,12 @@
-import { Schema, model, models } from "mongoose";
+import { Schema, model, models, Document, Model, Types } from "mongoose";
 
-const ReportSchema = new Schema({
+interface IReport extends Document {
+  victim_id: Types.ObjectId,
+  prompt_id: Types.ObjectId,
+  message: string
+}
+
+const ReportSchema = new Schema<IReport>({
   victim_id: {
     type: Schema.Types.ObjectId,
     ref: "User",
@@ -20,6 +26,6 @@ const ReportSchema = new Schema({
   }
 });
 
-const Report = models.Report || model("Report", ReportSchema);
+const Report: Model<IReport> = models.Report || model<IReport>("Report", ReportSchema);
 
 export default Report;

@@ -1,6 +1,12 @@
-import { Schema, model, models } from "mongoose";
+import { Schema, model, models, Document, Model, Types } from "mongoose";
 
-const TagApplicationSchema = new Schema({
+interface ITagApplication extends Document {
+  name: string;
+  description: string;
+  applicant_id: Types.ObjectId;
+}
+
+const TagApplicationSchema = new Schema<ITagApplication>({
   name: {
     type: String,
     required: [true, "Name is required for tag application"],
@@ -22,6 +28,6 @@ const TagApplicationSchema = new Schema({
   }
 });
 
-const TagApplication = models.TagApplication || model("TagApplication", TagApplicationSchema);
+const TagApplication: Model<ITagApplication> = models.TagApplication || model<ITagApplication>("TagApplication", TagApplicationSchema);
 
 export default TagApplication;

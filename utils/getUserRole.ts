@@ -1,4 +1,4 @@
-export const getUserRole = async (userId) => {
+export const getUserRole = async (userId: number | string): Promise<void | string> => {
   try {
     const response = await fetch(`/api/users/${userId}`, {
       method: "GET"

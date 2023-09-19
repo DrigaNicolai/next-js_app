@@ -1,12 +1,27 @@
-import { Schema, model, models } from "mongoose";
+import { Schema, model, models, Document, Model, Types } from "mongoose";
 import Prompt from "@models/prompt";
 import Warning from "@models/warning";
 
-const UserSchema = new Schema({
+interface IUser extends Document {
+  email: string;
+  username: string;
+  image?: string;
+  role_id: Types.ObjectId;
+}
+
+const UserSchema = new Schema<IUser>({
   email: {
     type: String,
-    unique: [true, "Email already exists."],
+    unique: true,
     required: [true, "Email is required."],
+    validate: {
+      validator: async function (value: string) {
+        const user = await this.constructor.findOne({ email: value });
+
+        return !user;
+      },
+      message: "Email already exists.",
+    },
   },
   username: {
     type: String,
@@ -29,14 +44,14 @@ const UserSchema = new Schema({
   }
 });
 
-UserSchema.pre("deleteOne", { document: true, query: true }, async function (next)  {
+UserSchema.pre<IUser | any>("deleteOne", { document: true, query: true }, async function (next)  {
   try {
     console.log("User Middleware is triggered");
-    const user = await this.model.findOne(this.getFilter(), { _id: 1 }).lean();
+    const findUser = await this.model.findOne(this.getFilter(), { _id: 1 }).lean();
 
-    await Prompt.deleteMany({ createdBy: user._id });
+    await Prompt.deleteMany({ createdBy: findUser._id });
 
-    await Warning.deleteMany({ intruder_id: user._id });
+    await Warning.deleteMany({ intruder_id: findUser._id });
 
     next();
   } catch (error) {
@@ -44,6 +59,6 @@ UserSchema.pre("deleteOne", { document: true, query: true }, async function (nex
   }
 });
 
-const User = models.User || model("User", UserSchema);
+const User: Model<IUser> = models.User || model<IUser>("User", UserSchema);
 
 export default User;

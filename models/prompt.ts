@@ -1,7 +1,14 @@
-import { Schema, model, models } from "mongoose";
+import { Schema, model, models, Document, Model, Types } from "mongoose";
 import Report from "@models/report";
 
-const PromptSchema = new Schema({
+interface IPrompt extends Document {
+  createdBy: Types.ObjectId;
+  title: string;
+  text: string;
+  tag_id: Types.ObjectId;
+}
+
+const PromptSchema = new Schema<IPrompt>({
   createdBy: {
     type: Schema.Types.ObjectId,
     ref: "User",
@@ -21,13 +28,13 @@ const PromptSchema = new Schema({
     required: [true, "Prompt is required."],
   },
   tag_id: {
-    type: String,
+    type: Schema.Types.ObjectId,
     required: [true, "Tag is required."],
     ref: "Tag",
   }
 }, { timestamps: true });
 
-PromptSchema.pre("deleteOne", { document: true, query: true }, async function (next)  {
+PromptSchema.pre<IPrompt | any>("deleteOne", { document: true, query: true }, async function (next)  {
   try {
     console.log("Middleware is triggered");
     const prompt = await this.model.findOne(this.getFilter(), { _id: 1 }).lean();
@@ -43,7 +50,7 @@ PromptSchema.pre("deleteOne", { document: true, query: true }, async function (n
   }
 });
 
-PromptSchema.pre("deleteMany", { document: true, query: true }, async function (next)  {
+PromptSchema.pre<IPrompt | any>("deleteMany", { document: true, query: true }, async function (next)  {
   try {
     console.log("Prompt delete many middleware")
     const prompts = await this.model.find(this.getFilter(), { _id: 1 }).lean();
@@ -58,6 +65,6 @@ PromptSchema.pre("deleteMany", { document: true, query: true }, async function (
   }
 });
 
-const Prompt = models.Prompt || model("Prompt", PromptSchema);
+const Prompt: Model<IPrompt> = models.Prompt || model<IPrompt>("Prompt", PromptSchema);
 
 export default Prompt;
