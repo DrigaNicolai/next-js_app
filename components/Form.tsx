@@ -3,7 +3,7 @@ import { IPrompt } from "@ts/interface/prompt";
 
 interface IForm {
   type: string;
-  post: IPrompt;
+  post: IPrompt | any;
   setPost: (posts: IPrompt) => void;
   submitting: boolean;
   handleSubmit: (event: any) => void;
@@ -45,7 +45,7 @@ const Form = ({ type, post, setPost, submitting, handleSubmit }: IForm) => {
             </span>
           </span>
           <input
-            value={post.tag_id.name}
+            value={post.tag_id}
             onChange={(e) => setPost({ ...post, tag_id: e.target.value })}
             placeholder="#tag"
             required
