@@ -3,7 +3,6 @@ import { Schema, model, models, Document, Model, Types } from "mongoose";
 interface ITag extends Document {
   name: string;
   description: string;
-  applicant_id: Types.ObjectId;
 }
 
 const TagSchema = new Schema<ITag>({

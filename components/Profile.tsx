@@ -1,6 +1,15 @@
 import PromptCard from "@components/PromptCard";
+import { IPrompt } from "@ts/interface/prompt";
 
-const Profile = ({ name, desc, data, handleEdit, handleDelete }) => {
+interface IProfile {
+  name: string;
+  desc: string;
+  data: Array<IPrompt>;
+  handleEdit?: (prompt?: IPrompt) => void;
+  handleDelete?: (prompt?: IPrompt) => void;
+}
+
+const Profile = ({ name, desc, data, handleEdit, handleDelete }: IProfile) => {
   return (
     <section className="w-full">
       <h1 className='head_text text-left'>

@@ -2,7 +2,7 @@ import { connectToDB } from "@utils/database";
 import User from "@models/user";
 import Role from "@models/role";
 
-export const GET = async (req, { params }) => {
+export const GET = async (req, { params }): Promise<Response> => {
   try {
     await connectToDB();
 
@@ -18,7 +18,7 @@ export const GET = async (req, { params }) => {
   }
 }
 
-export const DELETE =  async (req, { params }) => {
+export const DELETE =  async (req, { params }): Promise<Response> => {
   try {
     await connectToDB();
 
@@ -28,6 +28,7 @@ export const DELETE =  async (req, { params }) => {
       return new Response("Prompt not found", { status: 404 });
     }
 
+    // @ts-ignore
     await User.deleteOne(user);
 
     return new Response("Prompt deleted successfully", { status: 200 });

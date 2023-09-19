@@ -1,6 +1,15 @@
 import Link from "next/link";
+import { IPrompt } from "@ts/interface/prompt";
 
-const Form = ({ type, post, setPost, submitting, handleSubmit }) => {
+interface IForm {
+  type: string;
+  post: IPrompt;
+  setPost: (posts: IPrompt) => void;
+  submitting: boolean;
+  handleSubmit: (event: any) => void;
+}
+
+const Form = ({ type, post, setPost, submitting, handleSubmit }: IForm) => {
   return (
     <section className="w-full max-w-full flex-start flex-col">
       <h1 className="head_text text-left">
@@ -20,8 +29,8 @@ const Form = ({ type, post, setPost, submitting, handleSubmit }) => {
             Your AI Prompt
           </span>
           <textarea
-            value={post.prompt}
-            onChange={(e) => setPost({ ...post, prompt: e.target.value })}
+            value={post.text}
+            onChange={(e) => setPost({ ...post, text: e.target.value })}
             placeholder="Write your prompt here..."
             required
             className="form_textarea"
@@ -36,8 +45,8 @@ const Form = ({ type, post, setPost, submitting, handleSubmit }) => {
             </span>
           </span>
           <input
-            value={post.tag}
-            onChange={(e) => setPost({ ...post, tag: e.target.value })}
+            value={post.tag_id.name}
+            onChange={(e) => setPost({ ...post, tag_id: e.target.value })}
             placeholder="#tag"
             required
             className="form_input"

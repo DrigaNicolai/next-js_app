@@ -1,19 +1,21 @@
 "use client";
 
-import { useState } from 'react';
-import { useSession } from "next-auth/react";
+import React, { useState } from 'react';
+import {Session, useSession} from "next-auth/react";
 import { useRouter } from "next/navigation";
 
 import Form from "@components/Form";
+import { AppRouterInstance } from "@node_modules/next/dist/shared/lib/app-router-context";
+import {IPrompt} from "@ts/interface/prompt";
 
 const CreatePrompt = () => {
-  const router = useRouter();
-  const { data: session } = useSession();
+  const router = useRouter() as AppRouterInstance;
+  const { data: session } = useSession() as Session;
 
-  const [submitting, setSubmitting] = useState(false);
-  const [post, setPost] = useState({ prompt: '', tag: '' });
+  const [submitting, setSubmitting] = useState(false as boolean);
+  const [post, setPost] = useState({} as any);
 
-  const createPrompt = async (e) => {
+  const createPrompt = async (e: React.MouseEvent) => {
     e.preventDefault();
     setSubmitting(true);
 

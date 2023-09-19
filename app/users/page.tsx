@@ -3,14 +3,16 @@
 import { useUserRole } from "@middleware/useUserRole";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { useSession } from "next-auth/react";
+import { Session, useSession } from "next-auth/react";
 import DataTable from "@components/DataTable";
+import { AppRouterInstance } from "@node_modules/next/dist/shared/lib/app-router-context";
+import { IUser } from "@ts/interface/user";
 
 const Users = () => {
-  const user = useUserRole(["admin", "user"]); // TODO: Remove user
-  const router = useRouter();
-  const { data: session } = useSession();
-  const [users, setUsers] = useState([]);
+  const user = useUserRole(["admin", "user"]) as string; // TODO: Remove user
+  const router = useRouter() as AppRouterInstance;
+  const { data: session } = useSession() as Session;
+  const [users, setUsers] = useState([] as Array<IUser>);
   const [headers, setHeaders] = useState([
     {text: "Name", value: "name"},
     {text: "Email", value: "email"},
@@ -18,7 +20,7 @@ const Users = () => {
   ]);
 
   useEffect(() => {
-    const fetchUsers = async () => {
+    const fetchUsers = async (): Promise<void> => {
       const response = await fetch(`/api/users`,{
         method: "GET",
         headers: {
@@ -38,7 +40,7 @@ const Users = () => {
     fetchUsers();
   }, [user]);
 
-  const test = () => {
+  const test = (): void => {
     console.log("test")
   }
 

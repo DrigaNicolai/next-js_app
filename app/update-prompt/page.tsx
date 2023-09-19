@@ -1,17 +1,19 @@
 "use client";
 
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from "next/navigation";
 
 import Form from "@components/Form";
+import { AppRouterInstance } from "@node_modules/next/dist/shared/lib/app-router-context";
+import { IPrompt } from "@ts/interface/prompt";
 
 const EditPrompt = () => {
-  const router = useRouter();
+  const router = useRouter() as AppRouterInstance;
   const searchParams = useSearchParams();
   const promptId = searchParams.get("id");
 
-  const [submitting, setSubmitting] = useState(false);
-  const [post, setPost] = useState({ prompt: '', tag: '' });
+  const [submitting, setSubmitting] = useState(false as boolean);
+  const [post, setPost] = useState({} as any);
 
   useEffect(() => {
     const getPromptDetails = async () => {
@@ -29,7 +31,7 @@ const EditPrompt = () => {
     }
   }, [promptId])
 
-  const updatePrompt = async (e) => {
+  const updatePrompt = async (e: React.MouseEvent) => {
     e.preventDefault();
     setSubmitting(true);
 

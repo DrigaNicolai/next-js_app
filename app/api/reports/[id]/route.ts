@@ -1,7 +1,7 @@
 import { connectToDB } from "@utils/database";
 import Report from "@models/report";
 
-export const GET = async (req, { params }) => {
+export const GET = async (req, { params }): Promise<Response> => {
   try {
     await connectToDB();
 
@@ -17,7 +17,7 @@ export const GET = async (req, { params }) => {
   }
 }
 
-export const DELETE =  async (req, { params }) => {
+export const DELETE =  async (req, { params }): Promise<Response> => {
   try {
     await connectToDB();
 
@@ -27,6 +27,7 @@ export const DELETE =  async (req, { params }) => {
       return new Response("Report not found", { status: 404 });
     }
 
+    // @ts-ignore
     await Report.deleteOne(report);
 
     return new Response("Prompt deleted successfully", { status: 200 });

@@ -6,8 +6,28 @@ import jwt from "jsonwebtoken";
 import User from "@models/user";
 import Role from "@models/role";
 import { connectToDB } from "@utils/database";
+import {IRole} from "@ts/interface/role";
+import {IUser} from "@ts/interface/user";
 
 const secret = process.env.JWT_SECRET;
+
+interface Session {
+  user: {
+    email: string;
+    id?: string;
+    role?: string;
+    username: string;
+    image?: string;
+    role_id?: IRole;
+  };
+  token: string;
+}
+
+interface Profile {
+  email: string;
+  name: string;
+  picture: string;
+}
 
 const handler = NextAuth({
   providers: [
@@ -17,17 +37,20 @@ const handler = NextAuth({
     })
   ],
   callbacks: {
-    async session({ session }) {
-      const sessionUser = await User.findOne({ email: session.user.email }).populate("role_id");
+    // @ts-ignore
+    async session({ session }: { session: Session }): Promise<Session> {
+      const sessionUser = await User.findOne({ email: session.user.email }) as IUser;
+      const sessionRole = await Role.findById(sessionUser.role_id);
 
       session.user.id = sessionUser._id.toString();
-      session.user.role = String(sessionUser.role_id.name);
+      session.user.role = String(sessionRole.name);
 
       session.token = jwt.sign(session.user, secret, { expiresIn: "24h" });
 
       return session;
     },
-    async signIn({ profile }) {
+    // @ts-ignore
+    async signIn({ profile } : { profile: Profile }): Promise<boolean> {
       try {
         await connectToDB();
 

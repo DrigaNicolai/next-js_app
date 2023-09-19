@@ -4,8 +4,15 @@ import { useState, useEffect } from "react";
 
 import PromptCard from "@components/PromptCard";
 import ReportModal from "@components/ReportModal";
+import { IPrompt } from "@ts/interface/prompt";
 
-const PromptCardList = ({ data, handleTagClick, handleReport }) => {
+interface IPromptCardList {
+  data: Array<IPrompt>;
+  handleTagClick: (tag?: string) => void;
+  handleReport: (post?: IPrompt) => void;
+}
+
+const PromptCardList = ({ data, handleTagClick, handleReport }: IPromptCardList) => {
   return (
     <div className="mt-16 prompt_layout">
       { data.map((post) => (
@@ -22,35 +29,35 @@ const PromptCardList = ({ data, handleTagClick, handleReport }) => {
 }
 
 const Feed = () => {
-  const [allPosts, setAllPosts] = useState([]);
+  const [allPosts, setAllPosts] = useState([] as Array<IPrompt>);
 
   // Search states
-  const [searchText, setSearchText] = useState("");
-  const [searchTimeout, setSearchTimeout] = useState(null);
-  const [searchedResults, setSearchedResults] = useState([]);
+  const [searchText, setSearchText] = useState("" as string);
+  const [searchTimeout, setSearchTimeout] = useState(null as any);
+  const [searchedResults, setSearchedResults] = useState([] as Array<IPrompt>);
 
-  const [showReportModal, setShowReportModal] = useState(false);
-  const [reportedPost, setReportedPost] = useState({});
+  const [showReportModal, setShowReportModal] = useState(false as boolean);
+  const [reportedPost, setReportedPost] = useState({} as IPrompt);
 
-  const fetchPosts = async () => {
+  const fetchPosts = async (): Promise<void> => {
     const response = await fetch("/api/prompts");
     const data = await response.json();
 
     setAllPosts(data);
   }
 
-  useEffect(() => {
+  useEffect((): void => {
     fetchPosts();
   }, []);
 
-  const filterPrompts = (searchtext) => {
+  const filterPrompts = (searchtext: string): Array<IPrompt> => {
     const regex = new RegExp(searchtext, "i"); // 'i' flag for case-insensitive search
 
     return allPosts.filter(
       (item) =>
-        regex.test(item.creator.username) ||
-        regex.test(item.tag) ||
-        regex.test(item.prompt)
+        regex.test(item.createdBy.username) ||
+        regex.test(item.tag_id.name) ||
+        regex.test(item.text)
     );
   };
 
@@ -61,7 +68,7 @@ const Feed = () => {
 
     // debounce method
     setSearchTimeout(
-      setTimeout(() => {
+      setTimeout((): void => {
         const searchResult = filterPrompts(e.target.value);
 
         setSearchedResults(searchResult);
@@ -69,14 +76,14 @@ const Feed = () => {
     );
   };
 
-  const handleTagClick = (tagName) => {
+  const handleTagClick = (tagName: string): void => {
     setSearchText(tagName);
 
     const searchResult = filterPrompts(tagName);
     setSearchedResults(searchResult);
   };
 
-  const handleReport = (post) => {
+  const handleReport = (post: IPrompt): void => {
     setShowReportModal(true);
     setReportedPost(post);
   }

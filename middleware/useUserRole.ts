@@ -1,7 +1,7 @@
-import { useSession } from "next-auth/react";
+import { Session, useSession } from "next-auth/react";
 
 export function useUserRole(roles: Array<string>) {
-  const { data: session } = useSession();
+  const { data: session } = useSession() as Session;
 
   /*useEffect(() => {
     const getRole = async () => {

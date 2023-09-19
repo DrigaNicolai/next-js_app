@@ -2,13 +2,18 @@ import '@styles/globals.css';
 
 import Nav from "@components/Nav";
 import Provider from "@components/Provider";
+import React from "react";
 
 export const metadata = {
   title: "Social Posts",
   description: "Discover & Share AI Prompts"
 }
 
-const RootLayout = ({ children }) => {
+interface IRootLayout {
+  children: React.ReactNode;
+}
+
+const RootLayout = ({ children }: IRootLayout) => {
   return (
     <html lang="en">
       <body>

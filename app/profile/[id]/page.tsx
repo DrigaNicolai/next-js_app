@@ -4,15 +4,20 @@ import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 
 import Profile from "@components/Profile";
+import { IPrompt } from "@ts/interface/prompt";
 
-const UserProfile = ({ params }) => {
+interface IUserProfile {
+  params: any;
+}
+
+const UserProfile = ({ params }: IUserProfile) => {
   const searchParams = useSearchParams();
   const userName = searchParams.get("name");
 
-  const [userPosts, setUserPosts] = useState([]);
+  const [userPosts, setUserPosts] = useState([] as Array<IPrompt>);
 
   useEffect(() => {
-    const fetchPosts = async () => {
+    const fetchPosts = async (): Promise<void> => {
       const response = await fetch(`/api/users/${params?.id}/posts`);
       const data = await response.json();
 

@@ -1,7 +1,7 @@
 import { connectToDB } from "@utils/database";
 import Report from "@models/report";
 
-export const POST = async (req) => {
+export const POST = async (req): Promise<Response> => {
   const { promptId, userId, message } = await req.json();
 
   try {

@@ -1,26 +1,35 @@
 "use client";
 
-import { useState } from "react";
+import React, { useState } from "react";
 import PromptCard from "@components/PromptCard";
 import ReportForm from "@components/ReportForm";
-import { useSession } from "next-auth/react";
+import {Session, useSession} from "next-auth/react";
+import { IPrompt } from "@ts/interface/prompt";
 
-const ReportModal = ({ isVisible, onClose, reportedPost }) => {
-  const { data: session } = useSession();
+interface IReportModal {
+  isVisible: boolean;
+  onClose: () => void;
+  reportedPost: IPrompt;
+}
 
-  const [reportMsg, setReportMsg] = useState("");
-  const [submitting, setSubmitting] = useState(false);
+const ReportModal = ({ isVisible, onClose, reportedPost }: IReportModal) => {
+  const { data: session } = useSession() as Session;
+
+  const [reportMsg, setReportMsg] = useState("" as string);
+  const [submitting, setSubmitting] = useState(false as boolean);
 
   if (!isVisible) return null;
 
-  const handleClose = (e) => {
-    if (e.target.id === "wrapper") {
+  const handleClose = (e: React.MouseEvent) => {
+    const target = e.target as HTMLElement;
+
+    if (target.id === "wrapper") {
       setReportMsg("");
       onClose();
     }
   }
 
-  const createReport = async (e) => {
+  const createReport = async (e: React.MouseEvent) => {
     e.preventDefault();
 
     setSubmitting(true);

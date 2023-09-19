@@ -1,7 +1,7 @@
 import { connectToDB } from "@utils/database";
 import Report from "@models/report";
 
-export const GET = async (req) => {
+export const GET = async (req): Promise<Response> => {
   try {
     await connectToDB();
 

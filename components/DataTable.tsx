@@ -1,4 +1,11 @@
-const DataTable = ({ headers, data, handleDelete, handleEdit }) => {
+interface IDataTable {
+  headers: Array<any>;
+  data: Array<any>;
+  handleDelete?: (item: any) => void;
+  handleEdit?: (item: any) => void;
+}
+
+const DataTable = ({ headers, data, handleDelete, handleEdit }: IDataTable) => {
   return (
     <div className="flex items-center justify-center">
       <div className="container">
@@ -7,22 +14,22 @@ const DataTable = ({ headers, data, handleDelete, handleEdit }) => {
             <tr className="bg-teal-400 flex flex-col flex-no wrap sm:table-row rounded-l-lg sm:rounded-none mb-2 sm:mb-0">
               <th className="p-3 text-left">Name</th>
               <th className="p-3 text-left">Email</th>
-              <th className="p-3 text-left" width="110px">Actions</th>
+              <th className="p-3 text-left" style={{ width: '110px' }}>Actions</th>
             </tr>
             <tr className="bg-teal-400 flex flex-col flex-no wrap sm:table-row rounded-l-lg sm:rounded-none mb-2 sm:mb-0">
               <th className="p-3 text-left">Name</th>
               <th className="p-3 text-left">Email</th>
-              <th className="p-3 text-left" width="110px">Actions</th>
+              <th className="p-3 text-left" style={{ width: '110px' }}>Actions</th>
             </tr>
             <tr className="bg-teal-400 flex flex-col flex-no wrap sm:table-row rounded-l-lg sm:rounded-none mb-2 sm:mb-0">
               <th className="p-3 text-left">Name</th>
               <th className="p-3 text-left">Email</th>
-              <th className="p-3 text-left" width="110px">Actions</th>
+              <th className="p-3 text-left" style={{ width: '110px' }}>Actions</th>
             </tr>
             <tr className="bg-teal-400 flex flex-col flex-no wrap sm:table-row rounded-l-lg sm:rounded-none mb-2 sm:mb-0">
               <th className="p-3 text-left">Name</th>
               <th className="p-3 text-left">Email</th>
-              <th className="p-3 text-left" width="110px">Actions</th>
+              <th className="p-3 text-left" style={{ width: '110px' }}>Actions</th>
             </tr>
           </thead>
           <tbody className="flex-1 sm:flex-none">
@@ -47,7 +54,7 @@ const DataTable = ({ headers, data, handleDelete, handleEdit }) => {
               <td className="border-grey-light border hover:bg-gray-100 p-3 text-red-400 hover:text-red-600 hover:font-medium cursor-pointer">Delete</td>
             </tr>*/}
             { data.map((item) => (
-                <div>{item._id}</div>
+                <div key={item._id}>{item._id}</div>
               )
             )}
           </tbody>

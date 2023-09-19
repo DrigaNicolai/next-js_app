@@ -1,4 +1,13 @@
-const ReportForm = ({ message, setMessage, submitting, handleSubmit }) => {
+import React from "react";
+
+interface IReportForm {
+  message: string;
+  setMessage: (value: string) => void;
+  submitting: boolean;
+  handleSubmit: (e: any) => void;
+}
+
+const ReportForm = ({ message, setMessage, submitting, handleSubmit }: IReportForm) => {
   return (
     <form
       onSubmit={handleSubmit}

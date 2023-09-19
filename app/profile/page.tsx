@@ -1,19 +1,21 @@
 "use client";
 
 import { useState, useEffect } from 'react';
-import { useSession } from "next-auth/react";
+import {Session, useSession} from "next-auth/react";
 import { useRouter } from "next/navigation";
 
 import Profile from "@components/Profile";
+import {AppRouterInstance} from "@node_modules/next/dist/shared/lib/app-router-context";
+import {IPrompt} from "@ts/interface/prompt";
 
 const MyProfile = () => {
-  const router = useRouter();
-  const { data: session } = useSession();
+  const router = useRouter() as AppRouterInstance;
+  const { data: session } = useSession() as Session;
 
-  const [myPosts, setMyPosts] = useState([]);
+  const [myPosts, setMyPosts] = useState([] as Array<IPrompt>);
 
   useEffect(() => {
-    const fetchPosts = async () => {
+    const fetchPosts = async (): Promise<void> => {
       const response = await fetch(`/api/users/${session?.user.id}/posts`);
       const data = await response.json();
 
@@ -25,11 +27,11 @@ const MyProfile = () => {
     }
   }, []);
 
-  const handleEdit = (post) => {
+  const handleEdit = (post: IPrompt): void => {
     router.push(`/update-prompt?id=${post._id}`);
   }
 
-  const handleDelete = async (post) => {
+  const handleDelete = async (post: IPrompt): Promise<void> => {
     const hasConfirmed = confirm(
       "Are you sure you want to delete this prompt?"
     );

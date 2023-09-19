@@ -2,7 +2,7 @@ import { connectToDB } from "@utils/database";
 import Prompt from "@models/prompt";
 
 // GET (read)
-export const GET = async (req, { params }) => {
+export const GET = async (req, { params }): Promise<Response> => {
   try {
     await connectToDB();
 
@@ -19,7 +19,7 @@ export const GET = async (req, { params }) => {
 }
 
 // PATCH (update)
-export const PATCH = async (req, { params }) => {
+export const PATCH = async (req, { params }): Promise<Response> => {
   const { prompt, tag } = await req.json();
 
   try {
@@ -31,8 +31,9 @@ export const PATCH = async (req, { params }) => {
       return new Response("Prompt not found", { status: 404 });
     }
 
-    existingPrompt.prompt = prompt;
-    existingPrompt.tag = tag;
+    existingPrompt.text = prompt;
+    // @ts-ignore
+    existingPrompt.tag_id.name = tag;
 
     await existingPrompt.save();
 
@@ -43,7 +44,7 @@ export const PATCH = async (req, { params }) => {
 }
 
 // DELETE (delete)
-export const DELETE =  async (req, { params }) => {
+export const DELETE =  async (req, { params }): Promise<Response> => {
   try {
     await connectToDB();
 
@@ -53,6 +54,7 @@ export const DELETE =  async (req, { params }) => {
       return new Response("Prompt not found", { status: 404 });
     }
 
+    // @ts-ignore
     await Prompt.deleteOne(prompt);
 
     return new Response("Prompt deleted successfully", { status: 200 });

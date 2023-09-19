@@ -3,17 +3,17 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useState, useEffect } from "react";
-import { signIn, signOut, useSession, getProviders } from "next-auth/react";
+import { signIn, signOut, useSession, getProviders, Session } from "next-auth/react";
 
 const Nav = () => {
-  const { data: session } = useSession();
+  const { data: session } = useSession() as Session;
 
-  const [providers, setProviders] = useState(null);
-  const [toggleDropdown, setToggleDropdown] = useState(false);
-  const [userRoleName, setUserRoleName] = useState("undefined");
+  const [providers, setProviders] = useState(null as any);
+  const [toggleDropdown, setToggleDropdown] = useState(false as boolean);
+  const [userRoleName, setUserRoleName] = useState("undefined" as string);
 
-  useEffect(() => {
-    const setUpProviders = async () => {
+  useEffect((): void => {
+    const setUpProviders = async (): Promise<void> => {
       const response = await getProviders();
 
       setProviders(response);
@@ -22,7 +22,7 @@ const Nav = () => {
     setUpProviders();
   }, []);
 
-  useEffect(() => {
+  useEffect((): void => {
     if (session) {
       setUserRoleName(session?.user.role);
 
@@ -59,7 +59,7 @@ const Nav = () => {
               Create Post
             </Link>
 
-            <button type="button" onClick={signOut} className="outline_btn">
+            <button type="button" onClick={() => signOut} className="outline_btn">
               Sign Out
             </button>
 
@@ -76,7 +76,7 @@ const Nav = () => {
         ) : (
           <>
             { providers &&
-              Object.values(providers).map((provider) => (
+              Object.values(providers).map((provider: any) => (
                 <button
                   type="button"
                   key={provider.name}
@@ -136,7 +136,7 @@ const Nav = () => {
         ) : (
           <>
             { providers &&
-              Object.values(providers).map((provider) => (
+              Object.values(providers).map((provider: any) => (
                 <button
                   type="button"
                   key={provider.name}
