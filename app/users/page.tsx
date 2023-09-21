@@ -8,17 +8,15 @@ import DataTable from "@components/DataTable";
 import { AppRouterInstance } from "@node_modules/next/dist/shared/lib/app-router-context";
 import { IUser } from "@ts/interface/user";
 import CustomSession from "@ts/interface/customAuth";
+import {getTableHeaders} from "@static/getTableHeaders";
+import {IHeaders} from "@ts/interface/global";
 
 const Users = () => {
   const user = useUserRole(["admin", "user"]) as string; // TODO: Remove user
   const router = useRouter() as AppRouterInstance;
   const { data: session } = useSession() as unknown as CustomSession;
   const [users, setUsers] = useState([] as Array<IUser>);
-  const [headers, setHeaders] = useState([
-    {text: "Name", value: "name"},
-    {text: "Email", value: "email"},
-    {text: "Role", value: "role"},
-  ]);
+  const [headers, setHeaders] = useState([] as Array<IHeaders>);
 
   useEffect(() => {
     const fetchUsers = async (): Promise<void> => {
@@ -34,11 +32,20 @@ const Users = () => {
       setUsers(data);
     }
 
+    const fetchHeaders = (): void => {
+      const response = getTableHeaders("users");
+
+      const parsedHeaders = [...response, { text: "Actions", value: "actions", }];
+
+      setHeaders(parsedHeaders);
+    }
+
     if (!user) {
       router.replace("/");
     }
 
     fetchUsers();
+    fetchHeaders();
   }, [user]);
 
   const test = (): void => {
