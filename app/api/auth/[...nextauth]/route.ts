@@ -39,11 +39,12 @@ const handler = NextAuth({
   callbacks: {
     // @ts-ignore
     async session({ session }: { session: Session }): Promise<Session> {
-      const sessionUser = await User.findOne({ email: session.user.email }) as IUser;
-      const sessionRole = await Role.findById(sessionUser.role_id);
+      const sessionUser = await User.findOne({ email: session.user.email }).populate("role_id") as IUser;
+      // const sessionRole = await Role.findById(sessionUser.role_id);
 
       session.user.id = sessionUser._id.toString();
-      session.user.role = String(sessionRole.name);
+      session.user.role = sessionUser.role_id.name;
+      // session.user.role = String(sessionRole.name);
 
       session.token = jwt.sign(session.user, secret, { expiresIn: "24h" });
 
