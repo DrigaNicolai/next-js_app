@@ -4,7 +4,7 @@ export const getTableHeaders = (module: string): Array<IHeaders> => {
   switch (module) {
     case "users":
       return [
-        {text: "Name", value: "name"},
+        {text: "Username", value: "username"},
         {text: "Email", value: "email"},
         {text: "Role", value: "role"},
       ];
