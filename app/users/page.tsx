@@ -52,6 +52,10 @@ const Users = () => {
     fetchHeaders();
   }, [user]);
 
+  const handleEdit = (user: IUser): void => {
+    // console.log(user.id)
+  }
+
   const test = (): void => {
     console.log("test")
   }
@@ -153,6 +157,8 @@ const Users = () => {
       <DataTable
         data={users}
         headers={headers}
+        handleEdit={test}
+        handleDelete={test}
       />
     </div>
   );
