@@ -30,15 +30,32 @@ const DataTable = ({ headers, data, handleDelete, handleEdit }: IDataTable) => {
           </thead>
           <tbody className="flex-1 sm:flex-none">
             { data.map(item => (
-                <tr className="flex flex-col flex-no wrap sm:table-row mb-2 sm:mb-0" key={item.id}>
+                <tr className="flex flex-col flex-no wrap sm:table-row mb-2 sm:mb-0 border-b-0" key={item.id}>
                   { headers.map(header => (
                       <td className="border-grey-light border hover:bg-gray-100 p-3" key={header.value}>{item[header.value]}</td>
                     )
                   )}
-                  <td className="border-grey-light border hover:bg-gray-100 p-3">
-                    { handleEdit && ( <button onClick={() => handleEdit(item)}>Edit</button> ) }
-                  </td>
-                  <td className="border-grey-light border hover:bg-gray-100 p-3 text-red-400 hover:text-red-600 hover:font-medium cursor-pointer">Delete</td>
+                  {
+                    (handleEdit || handleDelete) &&
+                    <td className="border-grey-light border p-3 border-b-0">
+                      { handleEdit &&
+                        ( <span
+                          className="font-inter text-sm cursor-pointer mr-4 text-gray-400 hover:text-gray-600 hover:font-medium"
+                          onClick={() => handleEdit(item)}
+                        >
+                          Edit
+                        </span> )
+                      }
+                      { handleDelete &&
+                        ( <span
+                          className="font-inter text-sm cursor-pointer text-red-400 hover:text-red-600 hover:font-medium"
+                          onClick={() => handleDelete(item)}
+                        >
+                          Delete
+                        </span> )
+                      }
+                    </td>
+                  }
                 </tr>
               )
             )}
