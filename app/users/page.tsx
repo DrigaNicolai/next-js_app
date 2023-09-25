@@ -8,30 +8,40 @@ import DataTable from "@components/DataTable";
 import { AppRouterInstance } from "@node_modules/next/dist/shared/lib/app-router-context";
 import { IUser } from "@ts/interface/user";
 import CustomSession from "@ts/interface/customAuth";
+import {getTableHeaders} from "@static/getTableHeaders";
+import {IHeaders} from "@ts/interface/global";
 
 const Users = () => {
   const user = useUserRole(["admin", "user"]) as string; // TODO: Remove user
   const router = useRouter() as AppRouterInstance;
   const { data: session } = useSession() as unknown as CustomSession;
   const [users, setUsers] = useState([] as Array<IUser>);
-  const [headers, setHeaders] = useState([
-    {text: "Name", value: "name"},
-    {text: "Email", value: "email"},
-    {text: "Role", value: "role"},
-  ]);
+  const [headers, setHeaders] = useState([] as Array<IHeaders>);
 
   useEffect(() => {
     const fetchUsers = async (): Promise<void> => {
       const response = await fetch(`/api/users`,{
         method: "GET",
         headers: {
-          "Authorization": `Bearer ${session.token}`
+          "Authorization": `Bearer ${session?.token}`
         }
       });
 
       const data = await response.json();
 
-      setUsers(data);
+      const parsedData = data.map((item) => (
+        { id: item._id, email: item.email, username: item.username, role: item.role_id.name }
+      ));
+
+      setUsers(parsedData);
+    }
+
+    const fetchHeaders = (): void => {
+      const response = getTableHeaders("users");
+
+      // const parsedHeaders = [...response, { text: "Actions", value: "actions", }];
+
+      setHeaders(response);
     }
 
     if (!user) {
@@ -39,7 +49,12 @@ const Users = () => {
     }
 
     fetchUsers();
+    fetchHeaders();
   }, [user]);
+
+  const handleEdit = (id: string): void => {
+    router.push(`/users/${id}/edit`);
+  }
 
   const test = (): void => {
     console.log("test")
@@ -47,7 +62,9 @@ const Users = () => {
 
   return (
     <div className="w-full max-w-full flex-start flex-col">
-      USERS TEST
+      <h1 className='head_text text-left'>
+        <span className="blue_gradient">Users table</span>
+      </h1>
       {/*<div className="flex flex-col mt-10 w-full max-w-2xl gap-7">
         <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
           <div className="inline-block min-w-full py-2 sm:px-6 lg:px-8">
@@ -140,7 +157,7 @@ const Users = () => {
       <DataTable
         data={users}
         headers={headers}
-        handleEdit={test}
+        handleEdit={handleEdit}
         handleDelete={test}
       />
     </div>
