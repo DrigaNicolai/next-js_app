@@ -52,8 +52,8 @@ const Users = () => {
     fetchHeaders();
   }, [user]);
 
-  const handleEdit = (user: IUser): void => {
-    // console.log(user.id)
+  const handleEdit = (id: string): void => {
+    router.push(`/users/${id}/edit`);
   }
 
   const test = (): void => {
@@ -157,7 +157,7 @@ const Users = () => {
       <DataTable
         data={users}
         headers={headers}
-        handleEdit={test}
+        handleEdit={handleEdit}
         handleDelete={test}
       />
     </div>

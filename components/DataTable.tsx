@@ -41,7 +41,7 @@ const DataTable = ({ headers, data, handleDelete, handleEdit }: IDataTable) => {
                       { handleEdit &&
                         ( <span
                           className="font-inter text-sm cursor-pointer mr-4 text-gray-400 hover:text-gray-600 hover:font-medium"
-                          onClick={() => handleEdit(item)}
+                          onClick={() => handleEdit(item.id)}
                         >
                           Edit
                         </span> )
