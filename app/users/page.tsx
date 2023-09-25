@@ -8,11 +8,11 @@ import DataTable from "@components/DataTable";
 import { AppRouterInstance } from "@node_modules/next/dist/shared/lib/app-router-context";
 import { IUser } from "@ts/interface/user";
 import CustomSession from "@ts/interface/customAuth";
-import {getTableHeaders} from "@static/getTableHeaders";
-import {IHeaders} from "@ts/interface/global";
+import { getTableHeaders } from "@static/getTableHeaders";
+import { IHeaders } from "@ts/interface/global";
 
 const Users = () => {
-  const user = useUserRole(["admin", "user"]) as string; // TODO: Remove user
+  const user = useUserRole(["admin"]) as string;
   const router = useRouter() as AppRouterInstance;
   const { data: session } = useSession() as unknown as CustomSession;
   const [users, setUsers] = useState([] as Array<IUser>);
@@ -56,8 +56,27 @@ const Users = () => {
     router.push(`/users/${id}/edit`);
   }
 
-  const test = (): void => {
-    console.log("test")
+  const handleDelete = async (user: IUser): Promise<void> => {
+    const hasConfirmed = confirm(
+      "Are you sure you want to delete this user?"
+    );
+
+    if (hasConfirmed) {
+      try {
+        await fetch(`/api/users/${user.id.toString()}`, {
+          method: "DELETE",
+          headers: {
+            "Authorization": `Bearer ${session?.token}`
+          }
+        });
+
+        const filteredUsers = users.filter((item) => item.id !== user.id);
+
+        setUsers(filteredUsers);
+      } catch (error) {
+        console.log(error);
+      }
+    }
   }
 
   return (
@@ -158,7 +177,7 @@ const Users = () => {
         data={users}
         headers={headers}
         handleEdit={handleEdit}
-        handleDelete={test}
+        handleDelete={handleDelete}
       />
     </div>
   );
