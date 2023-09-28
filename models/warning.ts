@@ -10,17 +10,17 @@ interface IWarning extends Document {
 const WarningSchema = new Schema<IWarning>({
   moderator_id: {
     type: Schema.Types.ObjectId,
-    required: [true, "Moderator is required to create warning"],
+    required: [true, "Moderator is required to edit warning"],
     ref: "User"
   },
   intruder_id: {
     type: Schema.Types.ObjectId,
-    required: [true, "Intruder is required to create warning"],
+    required: [true, "Intruder is required to edit warning"],
     ref: "User"
   },
   warning_type_id: {
     type: Schema.Types.ObjectId,
-    required: [true, "Warning type is required to create warning"],
+    required: [true, "Warning type is required to edit warning"],
     ref: "WarningType"
   },
   comment: {

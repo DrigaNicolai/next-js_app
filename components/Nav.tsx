@@ -45,7 +45,8 @@ const Nav = () => {
         <p className="logo_text">Social Posts</p>
       </Link>
 
-      <div>{ userRoleName }</div>
+      {/*TODO: REMOVE IT*/}
+      <div> USER ROLE: { userRoleName }</div>
       <div className="flex gap-2 flex-center">
         <Link href="/users" className="flex gap-2 flex-center">
           <p className="modules_text">Users</p>
@@ -60,11 +61,11 @@ const Nav = () => {
               Create Post
             </Link>
 
-            <button type="button" onClick={() => signOut} className="outline_btn">
+            <button type="button" onClick={() => signOut({ callbackUrl: "/" })} className="outline_btn">
               Sign Out
             </button>
 
-            <Link href="/components/Profile">
+            <Link href="/profile">
               <Image
                 src={session?.user.image}
                 width={37}

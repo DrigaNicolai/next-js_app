@@ -43,6 +43,7 @@ const handler = NextAuth({
       const sessionRole = await Role.findById(sessionUser.role_id);
 
       session.user.id = sessionUser._id.toString();
+      // session.user.role = sessionUser.role_id.name;
       session.user.role = String(sessionRole.name);
 
       session.token = jwt.sign(session.user, secret, { expiresIn: "24h" });
@@ -57,7 +58,7 @@ const handler = NextAuth({
         // check if user already exists
         const userExists = await User.findOne({ email: profile.email })
 
-        // if not, create a new user
+        // if not, edit a new user
         if (!userExists) {
           await User.create({
             email: profile.email,
