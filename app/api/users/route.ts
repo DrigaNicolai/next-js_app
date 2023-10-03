@@ -1,6 +1,4 @@
-import User from "@models/user";
 import { checkCredentials } from "@utils/checkCredentials";
-import { getUsers } from "@services/UserService";
 import userController from "@controllers/index";
 
 export const GET = async (req, res): Promise<Response> => {

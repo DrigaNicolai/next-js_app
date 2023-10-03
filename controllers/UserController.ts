@@ -1,10 +1,10 @@
 import { IResponse } from "@ts/interface/global";
-import User from "@models/user";
+import userService from "@/services/index";
 
 export default class UserController {
-  async getUsers(): Promise<any> {
+  async getUsers(): Promise<IResponse> {
     try {
-      const users = await User.find({}).populate('role_id');
+      const users = await userService.userService().getUsers();
 
       if (!users || users.length === 0) {
         return {
