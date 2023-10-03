@@ -5,6 +5,7 @@ import { getAvailableRoles } from "@static/getAvailableRoles";
 
 export async function middleware(request: Request) {
   try {
+    // @ts-ignore
     const action = `${request.method}-${request.nextUrl.pathname}`
 
     const headers = request.headers;
