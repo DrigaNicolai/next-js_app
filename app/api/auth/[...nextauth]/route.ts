@@ -6,8 +6,10 @@ import jwt from "jsonwebtoken";
 import User from "@models/user";
 import Role from "@models/role";
 import { connectToDB } from "@utils/database";
-import {IRole} from "@ts/interface/role";
-import {IUser} from "@ts/interface/user";
+import { IRole } from "@ts/interface/role";
+import { IUser } from "@ts/interface/user";
+import { signJWT } from "@utils/token";
+import { getEnvVariable } from "@utils/getEnvVar";
 
 const secret = process.env.JWT_SECRET;
 
@@ -46,7 +48,12 @@ const handler = NextAuth({
       // session.user.role = sessionUser.role_id.name;
       session.user.role = String(sessionRole.name);
 
-      session.token = jwt.sign(session.user, secret, { expiresIn: "24h" });
+      const JWT_EXPIRES_IN = getEnvVariable("JWT_EXPIRES_IN");
+
+      session.token = await signJWT(
+        { sub: JSON.stringify(session.user) },
+        { exp: `${JWT_EXPIRES_IN}h` }
+      );
 
       return session;
     },

@@ -3,8 +3,6 @@ import { checkCredentials } from "@utils/checkCredentials";
 
 export const GET = async (req, res): Promise<Response> => {
   try {
-    await checkCredentials("getUsers");
-
     const users = await User.find({}).populate("role_id");
 
     if (!users) {
