@@ -6,7 +6,7 @@ export default class UserController {
     try {
       const users = await userService.userService().getUsers();
 
-      if (!users || users.length === 0) {
+      if (!users) {
         return {
           status: 404,
           response: { message: "Users not found" },
