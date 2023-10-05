@@ -2,11 +2,13 @@ import { NextResponse } from "next/server";
 import { Request } from "@node_modules/next/dist/compiled/@edge-runtime/primitives/fetch";
 import { verifyJWT } from "@utils/token";
 import { getAvailableRoles } from "@static/getAvailableRoles";
+import { replaceIdWithValue } from "@static/replaceId";
 
 export async function middleware(request: Request) {
   try {
     // @ts-ignore
-    const action = `${request.method}-${request.nextUrl.pathname}`
+    const pathname = replaceIdWithValue(request.nextUrl.pathname);
+    const action = `${request.method}-${pathname}`;
 
     const headers = request.headers;
     const authorization = headers.get("authorization");
