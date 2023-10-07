@@ -10,6 +10,8 @@ export const getAvailableRoles = (action: string): Array<string> => {
       return ["admin", "moderator"];
     case "PATCH-/api/users/:id":
       return ["admin"];
+    case "POST-/api/warning-types/create":
+      return ["admin"];
     default:
       return ["user"];
   }
