@@ -24,4 +24,20 @@ export default class WarningTypeController {
       }
     }
   }
+
+  async create(body: object): Promise<IResponse> {
+    try {
+      await warningTypeService.warningTypeService().create(body);
+
+      return {
+        status: 201,
+        response: { message: "Warning type was successfully created" }
+      }
+    } catch (error) {
+      return {
+        status: 500,
+        response: { message: `Failed to fetch all warning types ${error.message}` }
+      }
+    }
+  }
 }
