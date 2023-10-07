@@ -10,7 +10,6 @@ import { IHeaders } from "@ts/interface/global";
 import { getTableHeaders } from "@static/getTableHeaders";
 import DataTable from "@components/DataTable";
 import Link from "next/link";
-// import { useUserRole } from "@middleware/useUserRole";
 
 const Page = () => {
   // const user = useUserRole(["admin", "moderator", "user"]) as string;
