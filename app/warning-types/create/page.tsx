@@ -15,7 +15,10 @@ const CreateWarningType = () => {
   const { data: session } = useSession() as unknown as CustomSession;
 
   const [submitting, setSubmitting] = useState(false as boolean);
-  const [warningType, setWarningType] = useState({} as IWarningType)
+  const [warningType, setWarningType] = useState({
+    name: "",
+    points_number: 0
+  } as IWarningType)
 
   const createWarningType = async (e: React.MouseEvent): Promise<void> => {
     e.preventDefault();
