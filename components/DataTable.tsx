@@ -13,11 +13,11 @@ const DataTable = ({ headers, data, handleDelete, handleEdit }: IDataTable) => {
           <thead className="text-white">
             { data.map((item, index) => (
               <tr
-                key={`${item.id}-${index}`}
+                key={`${item._id}-${index}`}
                 className="bg-orange-300 flex flex-col flex-nowrap sm:table-row rounded-l-lg sm:rounded-none mb-2 sm:mb-0"
               >
-                { headers.map(header => (
-                    <th key={header.value} className="p-3 text-left">{header.text}</th>
+                { headers.map((header, index) => (
+                    <th key={`${header.value}-${index}`} className="p-3 text-left">{header.text}</th>
                   )
                 )}
                 {
@@ -29,10 +29,15 @@ const DataTable = ({ headers, data, handleDelete, handleEdit }: IDataTable) => {
             )}
           </thead>
           <tbody className="flex-1 sm:flex-none">
-            { data.map(item => (
-                <tr className="flex flex-col flex-no wrap sm:table-row mb-2 sm:mb-0 border-b-0" key={item.id}>
-                  { headers.map(header => (
-                      <td className="border-grey-light border hover:bg-gray-100 p-3" key={header.value}>{item[header.value]}</td>
+            { data.map((item, index) => (
+                <tr className="flex flex-col flex-no wrap sm:table-row mb-2 sm:mb-0 border-b-0" key={`${index}-${item._id}`}>
+                  { headers.map((header, index) => (
+                      <td
+                        className="border-grey-light border hover:bg-gray-100 p-3"
+                        key={`${index}-${header.value}`}
+                      >
+                        {item[header.value]
+                      }</td>
                     )
                   )}
                   {
@@ -41,7 +46,7 @@ const DataTable = ({ headers, data, handleDelete, handleEdit }: IDataTable) => {
                       { handleEdit &&
                         ( <span
                           className="font-inter text-sm cursor-pointer mr-4 text-gray-400 hover:text-gray-600 hover:font-medium"
-                          onClick={() => handleEdit(item.id)}
+                          onClick={() => handleEdit(item._id)}
                         >
                           Edit
                         </span> )

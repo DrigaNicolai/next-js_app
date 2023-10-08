@@ -8,6 +8,11 @@ export const getTableHeaders = (module: string): Array<IHeaders> => {
         {text: "Email", value: "email"},
         {text: "Role", value: "role"},
       ];
+    case "warningTypes":
+      return [
+        {text: "Name", value: "name"},
+        {text: "Points number", value: "points_number"}
+      ];
     default:
       return [];
   }

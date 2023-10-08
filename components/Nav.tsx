@@ -47,9 +47,12 @@ const Nav = () => {
 
       {/*TODO: REMOVE IT*/}
       <div> USER ROLE: { userRoleName }</div>
-      <div className="flex gap-2 flex-center">
+      <div className="flex gap-3 flex-center">
         <Link href="/users" className="flex gap-2 flex-center">
           <p className="modules_text">Users</p>
+        </Link>
+        <Link href="/warning-types" className="flex gap-2 flex-center">
+          <p className="modules_text">Warning Types</p>
         </Link>
       </div>
 
