@@ -62,7 +62,7 @@ export default class UserController {
       await userService.userService().deleteUser(user);
 
       return {
-        status: 200,
+        status: 204,
         response: { message: "User was deleted successfully" },
       };
     } catch (error) {
