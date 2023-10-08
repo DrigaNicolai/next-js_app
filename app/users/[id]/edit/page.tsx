@@ -20,7 +20,12 @@ const EditUser = ({ params }: IUserEdit) => {
   const { data: session } = useSession() as unknown as CustomSession;
 
   const [submitting, setSubmitting] = useState(false as boolean);
-  const [userData, setUserData] = useState({} as IUser);
+  const [userData, setUserData] = useState({
+    _id: "",
+    username: "",
+    email: "",
+    role: ""
+  } as IUser);
   const [roles, setRoles] = useState([] as Array<IRole>);
 
   useEffect(() => {

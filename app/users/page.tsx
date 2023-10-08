@@ -63,16 +63,18 @@ const Users = () => {
 
     if (hasConfirmed) {
       try {
-        await fetch(`/api/users/${user.id.toString()}`, {
+        const response = await fetch(`/api/users/${user._id.toString()}`, {
           method: "DELETE",
           headers: {
             "Authorization": `Bearer ${session?.token}`
           }
         });
 
-        const filteredUsers = users.filter((item) => item.id !== user.id);
+        if (response.ok) {
+          const filteredUsers = users.filter((item) => item.id !== user._id);
 
-        setUsers(filteredUsers);
+          setUsers(filteredUsers);
+        }
       } catch (error) {
         console.log(error);
       }
