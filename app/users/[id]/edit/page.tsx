@@ -1,7 +1,7 @@
 "use client";
 
 import React, {useEffect, useState} from 'react';
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { AppRouterInstance } from "@node_modules/next/dist/shared/lib/app-router-context";
 import { IUser } from "@ts/interface/user";
 import UserForm from "@components/form/UserForm";
