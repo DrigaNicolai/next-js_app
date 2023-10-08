@@ -30,7 +30,7 @@ const Users = () => {
       const data = await response.json();
 
       const parsedData = data.map((item) => (
-        { id: item._id, email: item.email, username: item.username, role: item.role_id.name }
+        { _id: item._id, email: item.email, username: item.username, role: item.role_id.name }
       ));
 
       setUsers(parsedData);
