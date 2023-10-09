@@ -13,6 +13,11 @@ export const getTableHeaders = (module: string): Array<IHeaders> => {
         {text: "Name", value: "name"},
         {text: "Points number", value: "points_number"}
       ];
+    case "tags":
+      return [
+        {text: "Name", value: "name"},
+        {text: "Description", value: "description"}
+      ]
     default:
       return [];
   }
