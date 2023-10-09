@@ -1,23 +1,24 @@
-import { IWarningType } from "@ts/interface/warningType";
+import { ITag } from "@ts/interface/tag";
 import Link from "next/link";
 
-interface IWarningTypeForm {
+interface ITagForm {
   type: "Create" | "Edit";
-  warningType: IWarningType;
-  setWarningType: (warningType: IWarningType) => void;
+  tag: ITag,
+  setTag: (tag: ITag) => void;
   submitting: boolean;
   handleSubmit: (event: any) => void;
 }
 
-const WarningTypeForm = ({ type, warningType, setWarningType, submitting, handleSubmit }: IWarningTypeForm) => {
+const TagForm = ({ type, tag, setTag, submitting, handleSubmit }: ITagForm) => {
   return (
     <section className="w-full max-w-full flex-start flex-col">
       <h1 className="head_text text-left">
-        <span className="blue_gradient">{type} Warning type</span>
+        <span className="blue_gradient">
+          {type} Tag
+        </span>
       </h1>
       <p className="desc text-left max-w-md">
-        {type} warning types with certain points number that would receive
-        users who violated the rules
+        {type} tags that would be as a markup while you are creating prompts
       </p>
       <form
         onSubmit={handleSubmit}
@@ -28,29 +29,26 @@ const WarningTypeForm = ({ type, warningType, setWarningType, submitting, handle
             Name
           </span>
           <input
-            value={warningType.name}
-            onChange={(e) => setWarningType({ ...warningType, name: e.target.value })}
+            value={tag.name}
+            onChange={(e) => setTag({ ...tag, name: e.target.value })}
             className="form_input"
-            required
           />
         </label>
         <label>
           <span className="font-satoshi font-semibold text-base text-gray-700">
-            Points number
+            Description
           </span>
-          <input
-            value={warningType.points_number}
-            onChange={(e) => setWarningType({ ...warningType, points_number: Number(e.target.value) })}
-            className="form_input"
-            type="number"
-            min="1"
-            max="16"
+          <textarea
+            value={tag.description}
+            onChange={(e) => setTag({ ...tag, description: e.target.value })}
+            placeholder="Write description for tag"
             required
+            className="form_textarea"
           />
         </label>
 
         <div className="flex-end mx-3 mb-5 gap-4">
-          <Link href="/warning-types" className="text-gray-500 text-sm">
+          <Link href="/tags" className="text-gray-500 text-sm">
             Cancel
           </Link>
 
@@ -73,4 +71,4 @@ const WarningTypeForm = ({ type, warningType, setWarningType, submitting, handle
   )
 }
 
-export default WarningTypeForm;
+export default TagForm;

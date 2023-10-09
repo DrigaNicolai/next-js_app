@@ -94,7 +94,7 @@ export default class WarningTypeController {
       await warningTypeService.warningTypeService().deleteWarningType(warningType);
 
       return {
-        status: 204,
+        status: 200,
         response: { message: "Warning type was deleted successfully" }
       }
     } catch (error) {

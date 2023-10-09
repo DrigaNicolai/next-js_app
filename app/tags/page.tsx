@@ -1,57 +1,57 @@
-"use client";
+"use client"
 
 import { useUserRole } from "@middleware/useUserRole";
 import { useRouter } from "next/navigation";
 import { AppRouterInstance } from "@node_modules/next/dist/shared/lib/app-router-context";
 import { useSession } from "next-auth/react";
 import CustomSession from "@ts/interface/customAuth";
-import {useEffect, useState} from "react";
-import { IWarningType } from "@ts/interface/warningType";
+import { useEffect, useState } from "react";
+import { ITag } from "@ts/interface/tag";
 import { IHeaders } from "@ts/interface/global";
 import { getTableHeaders } from "@static/getTableHeaders";
 import DataTable from "@components/DataTable";
 import Link from "next/link";
 
-const Page = () => {
+const Tags = () => {
   const user = useUserRole(["admin", "moderator", "user"]) as string;
   const router: AppRouterInstance = useRouter();
-  const { data: session } = useSession() as unknown as CustomSession
-  const [warningTypes, setWarningTypes] = useState([] as Array<IWarningType>);
-  const [headers, setHeaders] = useState([] as Array<IHeaders>);
+  const { data: session } = useSession() as unknown as CustomSession;
+  const [tags, setTags] = useState([] as Array<ITag>);
+  const [headers, setHeaders] = useState([] as Array<IHeaders>)
 
   useEffect(() => {
-    const fetchWarningTypes = async (): Promise<void> => {
-      const response = await fetch(`/api/warning-types`, {
+    const fetchTags = async (): Promise<void> => {
+      const response = await fetch(`/api/tags`, {
         method: "GET"
       });
 
       const data = await response.json();
 
-      setWarningTypes(data);
+      setTags(data);
     }
 
     const fetchHeaders = (): void => {
-      const response = getTableHeaders("warningTypes");
+      const response = getTableHeaders("tags");
 
       setHeaders(response);
     }
 
-    fetchWarningTypes();
+    fetchTags();
     fetchHeaders();
   }, []);
 
   const handleEdit = (id: string): void => {
-    router.push(`/warning-types/${id}/edit`);
+    router.push(`/tags/${id}/edit`);
   }
 
-  const handleDelete = async (warningType: IWarningType): Promise<void> => {
+  const handleDelete = async (tag: ITag): Promise<void> => {
     const hasConfirmed = confirm(
-      "Are you sure you want to delete this warning type?"
+      "Are you sure you want to delete this tag?"
     );
 
     if (hasConfirmed) {
       try {
-        const response = await fetch(`/api/warning-types/${warningType._id.toString()}`, {
+        const response = await fetch(`/api/tags/${tag._id.toString()}`, {
           method: "DELETE",
           headers: {
             "Authorization": `Bearer ${session?.token}`
@@ -59,9 +59,9 @@ const Page = () => {
         });
 
         if (response.ok) {
-          const filteredWarningTypes = warningTypes.filter((item) => item._id !== warningType._id);
+          const filteredTags = tags.filter((item) => item._id !== tag._id);
 
-          setWarningTypes(filteredWarningTypes);
+          setTags(filteredTags);
         }
       } catch (error) {
         console.log(error);
@@ -73,29 +73,28 @@ const Page = () => {
     <div className="w-full max-w-full flex-start flex-col">
       <h1 className="head_text text-left">
         <span className="blue_gradient">
-          Warning Types table
+          Tag
         </span>
       </h1>
-      {user === "admin" ? (
-        <Link href="/warning-types/create" className="black_btn mt-4">
-          Create warning type
+      {user !== "user" ? (
+        <Link href="/tags/create" className="black_btn mt-4">
+          Create tag
         </Link>
       ) : (
         <></>
       )}
-
-      {!warningTypes.length ? (
-        <p className="desc text-left">There are no warning types</p>
-      ) : (user === "admin" ? (
+      {!tags.length ? (
+        <p className="desc text-left">There are no tags</p>
+      ) : (user !== "user" ? (
           <DataTable
-            data={warningTypes}
+            data={tags}
             headers={headers}
             handleEdit={handleEdit}
             handleDelete={handleDelete}
           />
         ) : (
           <DataTable
-            data={warningTypes}
+            data={tags}
             headers={headers}
           />
         )
@@ -104,4 +103,4 @@ const Page = () => {
   );
 };
 
-export default Page;
+export default Tags;
