@@ -31,6 +31,7 @@ const WarningTypeForm = ({ type, warningType, setWarningType, submitting, handle
             value={warningType.name}
             onChange={(e) => setWarningType({ ...warningType, name: e.target.value })}
             className="form_input"
+            required
           />
         </label>
         <label>
@@ -44,6 +45,7 @@ const WarningTypeForm = ({ type, warningType, setWarningType, submitting, handle
             type="number"
             min="1"
             max="16"
+            required
           />
         </label>
 

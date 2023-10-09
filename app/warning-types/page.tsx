@@ -77,7 +77,7 @@ const Page = () => {
         </span>
       </h1>
       {user === "admin" ? (
-        <Link href="/warning-types/create" className="black_btn mt-2">
+        <Link href="/warning-types/create" className="black_btn mt-4">
           Create warning type
         </Link>
       ) : (
