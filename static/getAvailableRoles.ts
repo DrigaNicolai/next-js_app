@@ -16,6 +16,12 @@ export const getAvailableRoles = (action: string): Array<string> => {
       return ["admin"];
     case "DELETE-/api/warning-types/:id":
       return ["admin"];
+    case "POST-/api/tags/create":
+      return ["admin", "moderator"];
+    case "PATCH-/api/tags/:id":
+      return ["admin", "moderator"];
+    case "DELETE-/api/tags/:id":
+      return ["admin", "moderator"];
     default:
       return ["user"];
   }
