@@ -38,7 +38,6 @@ const Tags = () => {
 
     fetchTags();
     fetchHeaders();
-    console.log(user);
   }, []);
 
   const handleEdit = (id: string): void => {
@@ -77,12 +76,12 @@ const Tags = () => {
           Tag
         </span>
       </h1>
-      {user ? ( user !== "user" ? (
+      {user ? ( user !== "admin" ? ( //TODO: REPLACE ADMIN WITH USER
         <Link href="/tags/create" className="black_btn mt-4">
           Create tag
         </Link>
       ) : (
-        <Link href="/tag-application" className="black_btn mt-4">
+        <Link href="/tag-applications/create" className="black_btn mt-4">
           Send tag application
         </Link>
       )) : (
