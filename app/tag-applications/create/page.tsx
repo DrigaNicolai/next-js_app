@@ -26,7 +26,10 @@ const CreateTagApplication = () => {
     try {
       const response = await fetch("/api/tag-applications/create", {
         method: "POST",
-        body: JSON.stringify(tagApplication),
+        body: JSON.stringify({
+          ...tagApplication,
+          applicant_id: session?.user.id
+        }),
         headers: {
           "Authorization": `Bearer ${session?.token}`
         }
