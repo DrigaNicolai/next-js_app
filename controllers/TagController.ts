@@ -1,5 +1,6 @@
 import { IResponse } from "@ts/interface/global";
 import tagService from "@services/index";
+import tagApplicationService from "@services";
 
 export default class TagController {
   async getAllTags(): Promise<IResponse> {
@@ -100,6 +101,36 @@ export default class TagController {
       return {
         status: 500,
         response: { message: `Failed to delete tag ${error.message}` }
+      }
+    }
+  }
+
+  async createFromApplication(body: object | any): Promise<IResponse> {
+    try {
+      const tagApplication = await tagApplicationService.tagApplicationService().getTagApplication(body.application_id);
+
+      if (!tagApplication) {
+        return {
+          status: 404,
+          response: { message: "Tag application not found" }
+        }
+      }
+
+      await tagApplicationService.tagApplicationService().deleteTagApplication(tagApplication);
+
+      await tagService.tagService().create({
+        name: body.name,
+        description: body.description
+      });
+
+      return  {
+        status: 200,
+        response: { message: "Tag was successfully created from application" }
+      }
+    } catch (error) {
+      return {
+        status: 500,
+        response: { message: `Failed to create tag from application ${error.message}` }
       }
     }
   }
