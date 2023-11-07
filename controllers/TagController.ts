@@ -36,7 +36,7 @@ export default class TagController {
     } catch (error) {
       return {
         status: 500,
-        response: { message: `Failed to fetch all tags ${error.message}` }
+        response: { message: `Failed to create tag ${error.message}` }
       }
     }
   }
