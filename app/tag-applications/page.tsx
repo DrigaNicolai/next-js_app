@@ -10,10 +10,7 @@ import { ITagApplication } from "@ts/interface/tagApplication";
 import { IHeaders } from "@ts/interface/global";
 import { getTableHeaders } from "@static/getTableHeaders";
 import DataTable from "@components/DataTable";
-import Link from "next/link";
-import {ITag} from "@ts/interface/tag";
-import {it} from "node:test";
-import {IUser} from "@ts/interface/user";
+import { ITag } from "@ts/interface/tag";
 
 const TagApplications = () => {
   const user = useUserRole(["admin", "moderator"]) as string;

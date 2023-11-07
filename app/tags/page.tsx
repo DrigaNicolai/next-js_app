@@ -76,7 +76,7 @@ const Tags = () => {
           Tag
         </span>
       </h1>
-      {user ? ( user !== "user" ? ( //TODO: REPLACE ADMIN WITH USER
+      {user ? ( user !== "user" ? (
         <>
           <Link href="/tags/create" className="black_btn mt-4">
             Create tag
