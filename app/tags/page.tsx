@@ -76,10 +76,15 @@ const Tags = () => {
           Tag
         </span>
       </h1>
-      {user ? ( user !== "admin" ? ( //TODO: REPLACE ADMIN WITH USER
-        <Link href="/tags/create" className="black_btn mt-4">
-          Create tag
-        </Link>
+      {user ? ( user !== "user" ? ( //TODO: REPLACE ADMIN WITH USER
+        <>
+          <Link href="/tags/create" className="black_btn mt-4">
+            Create tag
+          </Link>
+          <Link href="/tag-applications" className="black_btn mt-4">
+            Tag applications
+          </Link>
+        </>
       ) : (
         <Link href="/tag-applications/create" className="black_btn mt-4">
           Send tag application
