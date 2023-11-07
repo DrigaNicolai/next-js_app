@@ -3,9 +3,10 @@ interface IDataTable {
   data: Array<any>;
   handleDelete?: (item: any) => void;
   handleEdit?: (item: any) => void;
+  handleApprove?: (item: any) => void;
 }
 
-const DataTable = ({ headers, data, handleDelete, handleEdit }: IDataTable) => {
+const DataTable = ({ headers, data, handleDelete, handleEdit, handleApprove }: IDataTable) => {
   return (
     <section className="flex items-center justify-center">
       <div className="container">
@@ -41,22 +42,30 @@ const DataTable = ({ headers, data, handleDelete, handleEdit }: IDataTable) => {
                     )
                   )}
                   {
-                    (handleEdit || handleDelete) &&
+                    (handleEdit || handleDelete || handleApprove) &&
                     <td className="border-grey-light border p-3 border-b-0">
                       { handleEdit &&
                         ( <span
-                          className="font-inter text-sm cursor-pointer mr-4 text-gray-400 hover:text-gray-600 hover:font-medium"
-                          onClick={() => handleEdit(item._id)}
-                        >
-                          Edit
+                            className="font-inter text-sm cursor-pointer mr-4 text-gray-400 hover:text-gray-600 hover:font-medium"
+                            onClick={() => handleEdit(item._id)}
+                          >
+                            Edit
+                        </span> )
+                      }
+                      { handleApprove &&
+                        ( <span
+                            className="font-inter text-sm cursor-pointer mr-4 text-green-600 hover:text-green-800 hover:font-medium"
+                            onClick={() => handleApprove(item)}
+                          >
+                            Approve
                         </span> )
                       }
                       { handleDelete &&
                         ( <span
-                          className="font-inter text-sm cursor-pointer text-red-400 hover:text-red-600 hover:font-medium"
-                          onClick={() => handleDelete(item)}
-                        >
-                          Delete
+                            className="font-inter text-sm cursor-pointer text-red-400 hover:text-red-600 hover:font-medium"
+                            onClick={() => handleDelete(item)}
+                          >
+                            Delete
                         </span> )
                       }
                     </td>
