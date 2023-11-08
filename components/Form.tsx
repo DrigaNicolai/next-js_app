@@ -1,15 +1,18 @@
 import Link from "next/link";
 import { IPrompt } from "@ts/interface/prompt";
+import React from "react";
+import { ITag } from "@ts/interface/tag";
 
 interface IForm {
   type: string;
   post: IPrompt | any;
+  tags: Array<ITag>;
   setPost: (posts: IPrompt) => void;
   submitting: boolean;
   handleSubmit: (event: any) => void;
 }
 
-const Form = ({ type, post, setPost, submitting, handleSubmit }: IForm) => {
+const Form = ({ type, post, tags, setPost, submitting, handleSubmit }: IForm) => {
   return (
     <section className="w-full max-w-full flex-start flex-col">
       <h1 className="head_text text-left">
@@ -24,6 +27,19 @@ const Form = ({ type, post, setPost, submitting, handleSubmit }: IForm) => {
         onSubmit={handleSubmit}
         className="mt-10 w-full max-w-2xl flex flex-col gap-7 glassmorphism"
       >
+        <label>
+          <span className="font-satoshi font-semibold text-base text-gray-700">
+            Prompt title
+          </span>
+          <textarea
+            value={post.title}
+            onChange={(e) => setPost({ ...post, title: e.target.value })}
+            placeholder="Write your prompt's title here..."
+            required
+            className="form_textarea"
+          />
+        </label>
+
         <label>
           <span className="font-satoshi font-semibold text-base text-gray-700">
             Your AI Prompt
@@ -44,13 +60,29 @@ const Form = ({ type, post, setPost, submitting, handleSubmit }: IForm) => {
               (#product, #webdevelopment, #idea, etc.)
             </span>
           </span>
-          <input
+          {/*<input
             value={post.tag_id}
             onChange={(e) => setPost({ ...post, tag_id: e.target.value })}
             placeholder="#tag"
             required
             className="form_input"
-          />
+          />*/}
+          <select
+            className="form_input"
+            value={post.tag_id}
+            onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setPost({ ...post, tag_id: e.target.value })}
+            required
+          >
+            { tags.map((tag: ITag) => (
+                <option
+                  key={tag._id}
+                  value={tag._id}
+                >
+                  {tag.name}
+                </option>
+              )
+            )}
+          </select>
         </label>
 
         <div className="flex-end mx-3 mb-5 gap-4">
