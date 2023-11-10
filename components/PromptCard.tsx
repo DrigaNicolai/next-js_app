@@ -115,6 +115,9 @@ const PromptCard = ({ post, handleTagClick, handleEdit, handleDelete, handleRepo
         </div>
       </div>
 
+      <p className="my-4 font-satoshi text-md text-gray-700 font-bold">
+        {post.title}
+      </p>
       <p className="my-4 font-satoshi text-sm text-gray-700">
         {post.text}
       </p>
