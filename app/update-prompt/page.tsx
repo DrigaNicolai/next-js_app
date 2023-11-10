@@ -3,27 +3,33 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from "next/navigation";
 
-import Form from "@components/Form";
+import PostForm from "@components/form/PostForm";
 import { AppRouterInstance } from "@node_modules/next/dist/shared/lib/app-router-context";
 import { IPrompt } from "@ts/interface/prompt";
 import { ITag } from "@ts/interface/tag";
 import { useSession } from "@node_modules/next-auth/react";
 import CustomSession from "@ts/interface/customAuth";
+import { useUserRole } from "@middleware/useUserRole";
 
 const EditPrompt = () => {
+  const user: string = useUserRole(["admin", "moderator", "user"]);
   const router = useRouter() as AppRouterInstance;
   const searchParams = useSearchParams();
-  const promptId = searchParams.get("id");
+  const postId = searchParams.get("id");
 
   const { data: session } = useSession() as unknown as CustomSession;
 
   const [submitting, setSubmitting] = useState(false as boolean);
-  const [post, setPost] = useState({} as IPrompt | any);
   const [tags, setTags] = useState([] as Array<ITag>);
+  const [post, setPost] = useState({
+    title: "",
+    text: "",
+    tag_id: ""
+  } as IPrompt | any);
 
   useEffect(() => {
-    const getPromptDetails = async () => {
-      const response = await fetch(`/api/prompts/${promptId}`);
+    const getPostDetails = async () => {
+      const response = await fetch(`/api/posts/${postId}`);
       const data = await response.json() as IPrompt;
 
       setPost({
@@ -31,6 +37,10 @@ const EditPrompt = () => {
         text: data.text,
         tag_id: data.tag_id
       });
+
+      if (session?.user.id !== String(data.createdBy)) {
+        router.replace("/");
+      }
     }
 
     const fetchTags = async (): Promise<any> => {
@@ -46,32 +56,40 @@ const EditPrompt = () => {
       setTags(data);
     }
 
-    if (promptId) {
-      getPromptDetails();
-      fetchTags();
+    if(!user) {
+      router.replace("/");
     }
-  }, [promptId])
 
-  const updatePrompt = async (e: React.MouseEvent) => {
+    if (postId) {
+      fetchTags();
+      getPostDetails();
+    }
+
+  }, [postId, user])
+
+  const updatePost = async (e: React.MouseEvent) => {
     e.preventDefault();
     setSubmitting(true);
 
-    if (!promptId) {
-      return alert("Missing PromptId!");
+    if (!postId) {
+      return alert("Missing PostID!");
     }
 
     try {
-      const response = await fetch(`/api/prompts/${promptId}`,{
+      const response = await fetch(`/api/posts/${postId}`,{
         method: "PATCH",
         body: JSON.stringify({
           title: post.title,
           text: post.text,
           tag_id: post.tag_id
         }),
+        headers: {
+          "Authorization": `Bearer ${session?.token}`
+        },
       });
 
       if (response.ok) {
-        router.push("/");
+        router.push("/profile");
       }
     } catch (error) {
       console.log(error);
@@ -81,13 +99,13 @@ const EditPrompt = () => {
   }
 
   return (
-    <Form
+    <PostForm
       type="Edit"
       post={post}
       tags={tags}
       setPost={setPost}
       submitting={submitting}
-      handleSubmit={updatePrompt}
+      handleSubmit={updatePost}
     />
   );
 };
