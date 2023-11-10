@@ -12,15 +12,15 @@ interface IForm {
   handleSubmit: (event: any) => void;
 }
 
-const Form = ({ type, post, tags, setPost, submitting, handleSubmit }: IForm) => {
+const PostForm = ({ type, post, tags, setPost, submitting, handleSubmit }: IForm) => {
   return (
     <section className="w-full max-w-full flex-start flex-col">
       <h1 className="head_text text-left">
         <span className="blue_gradient">{type} Post</span>
       </h1>
       <p className="desc text-left max-w-md">
-        {type} and share amazing prompts with the world, and let your
-        imagination run wild with any AI-powered platform
+        {type} and share amazing prompts/posts with the world, and let your
+        imagination run wild with.
       </p>
 
       <form
@@ -29,20 +29,20 @@ const Form = ({ type, post, tags, setPost, submitting, handleSubmit }: IForm) =>
       >
         <label>
           <span className="font-satoshi font-semibold text-base text-gray-700">
-            Prompt title
+            Post title
           </span>
-          <textarea
+          <input
             value={post.title}
             onChange={(e) => setPost({ ...post, title: e.target.value })}
             placeholder="Write your prompt's title here..."
             required
-            className="form_textarea"
+            className="form_input"
           />
         </label>
 
         <label>
           <span className="font-satoshi font-semibold text-base text-gray-700">
-            Your AI Prompt
+            Post text
           </span>
           <textarea
             value={post.text}
@@ -55,7 +55,7 @@ const Form = ({ type, post, tags, setPost, submitting, handleSubmit }: IForm) =>
 
         <label>
           <span className="font-satoshi font-semibold text-base text-gray-700">
-            Field of Prompt{" "}
+            Tag{" "}
             <span className="font-normal">
               (#product, #webdevelopment, #idea, etc.)
             </span>
@@ -70,9 +70,16 @@ const Form = ({ type, post, tags, setPost, submitting, handleSubmit }: IForm) =>
           <select
             className="form_input"
             value={post.tag_id}
+            defaultValue="default"
             onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setPost({ ...post, tag_id: e.target.value })}
             required
           >
+            <option
+              disabled
+              value="default"
+            >
+              Choose tag
+            </option>
             { tags.map((tag: ITag) => (
                 <option
                   key={tag._id}
@@ -86,7 +93,7 @@ const Form = ({ type, post, tags, setPost, submitting, handleSubmit }: IForm) =>
         </label>
 
         <div className="flex-end mx-3 mb-5 gap-4">
-          <Link href="/" className="text-gray-500 text-sm">
+          <Link href="/profile" className="text-gray-500 text-sm">
             Cancel
           </Link>
 
@@ -99,7 +106,7 @@ const Form = ({ type, post, tags, setPost, submitting, handleSubmit }: IForm) =>
               ? (type === "Create"
                   ? "Creating..."
                   : `${type}ing...`
-                )
+              )
               : type
             }
           </button>
@@ -109,4 +116,4 @@ const Form = ({ type, post, tags, setPost, submitting, handleSubmit }: IForm) =>
   );
 };
 
-export default Form;
+export default PostForm;
