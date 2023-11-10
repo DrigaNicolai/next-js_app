@@ -39,8 +39,11 @@ const MyProfile = () => {
 
     if (hasConfirmed) {
       try {
-        await fetch(`/api/prompts/${post._id.toString()}`, {
-          method: "DELETE"
+        await fetch(`/api/posts/${post._id.toString()}`, {
+          method: "DELETE",
+          headers: {
+            "Authorization": `Bearer ${session?.token}`
+          }
         });
 
         const filteredPosts = myPosts.filter((item) => item._id !== post._id);
