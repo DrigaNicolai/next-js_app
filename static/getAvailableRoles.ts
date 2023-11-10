@@ -12,11 +12,17 @@ export const getAvailableRoles = (action: string): Array<string> => {
       return ["admin"];
     case "POST-/api/warning-types/create":
       return ["admin"];
+    case "GET-/api/warning-types/:id":
+      return ["admin"];
     case "PATCH-/api/warning-types/:id":
       return ["admin"];
     case "DELETE-/api/warning-types/:id":
       return ["admin"];
+    case "GET-/api/tags":
+      return ["admin", "moderator", "user"];
     case "POST-/api/tags/create":
+      return ["admin", "moderator"];
+    case "GET-/api/tags/:id":
       return ["admin", "moderator"];
     case "PATCH-/api/tags/:id":
       return ["admin", "moderator"];
@@ -27,7 +33,15 @@ export const getAvailableRoles = (action: string): Array<string> => {
     case "DELETE-/api/tag-applications/:id":
       return ["admin", "moderator"];
     case "POST-/api/tags/create/application":
-      return ["admin", "moderator"]
+      return ["admin", "moderator"];
+    case "POST-/api/posts/create":
+      return ["admin", "moderator", "user"];
+    case "GET-/api/posts/:id":
+      return ["admin", "moderator", "user"];
+    case "PATCH-/api/posts/:id":
+      return ["admin", "moderator", "user"];
+    case "DELETE-/api/posts/:id":
+      return ["admin", "moderator", "user"];
     default:
       return ["user"];
   }

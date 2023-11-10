@@ -1,16 +1,7 @@
-import { connectToDB } from "@utils/database";
-import Prompt from "@models/prompt";
+import userController from "@controllers";
 
 export const GET = async (req, { params }): Promise<Response> => {
-  try {
-    await connectToDB();
+  const { status, response } = await userController.userController().getUserPosts(params.id);
 
-    const prompts = await Prompt
-      .find({ creator: params.id })
-      .populate("creator");
-
-    return new Response(JSON.stringify(prompts), { status: 200 });
-  } catch (error) {
-    return new Response("Failed to fetch all prompts", { status: 500 });
-  }
+  return new Response(JSON.stringify(response), { status });
 }

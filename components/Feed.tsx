@@ -40,7 +40,7 @@ const Feed = () => {
   const [reportedPost, setReportedPost] = useState({} as IPrompt);
 
   const fetchPosts = async (): Promise<void> => {
-    const response = await fetch("/api/prompts");
+    const response = await fetch("/api/posts");
     const data = await response.json();
 
     setAllPosts(data);
@@ -57,7 +57,8 @@ const Feed = () => {
       (item) =>
         regex.test(item.createdBy.username) ||
         regex.test(item.tag_id.name) ||
-        regex.test(item.text)
+        regex.test(item.text) ||
+        regex.test(item.title)
     );
   };
 
