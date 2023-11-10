@@ -1,5 +1,6 @@
 import { IResponse } from "@ts/interface/global";
 import userService from "@/services/index";
+import Prompt from "@models/prompt";
 
 export default class UserController {
   async getAllUsers(): Promise<IResponse> {
@@ -94,6 +95,29 @@ export default class UserController {
       return {
         status: 500,
         response: { message: `Failed to update user ${error.message}` },
+      };
+    }
+  }
+
+  async getUserPosts(id: string) {
+    try {
+      const posts = await userService.userService().getUserPosts(id);
+
+      if (!posts) {
+        return {
+          status: 404,
+          response: {message: "User posts not found"},
+        };
+      }
+
+      return {
+        status: 200,
+        response: posts,
+      };
+    } catch (error) {
+      return {
+        status: 500,
+        response: {message: `Failed to update user ${error.message}`},
       };
     }
   }
