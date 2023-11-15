@@ -18,7 +18,9 @@ const DataTable = ({ headers, data, handleDelete, handleEdit, handleApprove }: I
                 className="bg-orange-300 flex flex-col flex-nowrap sm:table-row rounded-l-lg sm:rounded-none mb-2 sm:mb-0"
               >
                 { headers.map((header, index) => (
-                    <th key={`${header.value}-${index}`} className="p-3 text-left">{header.text}</th>
+                    <th key={`${header.value}-${index}`} style={{ width: header.width ? header.width : "230px" }} className="p-3 text-left">
+                      {header.text}
+                    </th>
                   )
                 )}
                 {
