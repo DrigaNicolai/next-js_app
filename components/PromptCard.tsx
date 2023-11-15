@@ -30,17 +30,14 @@ const PromptCard = ({ post, handleTagClick, handleEdit, handleDelete, handleRepo
   }, []);
 
   const setReportBtnRender = (): void => {
-    // TODO: return this code
-    /*const sessionUser = session?.user.id;
-    const postCreator = post.creator._id;
+    const sessionUser = session?.user.id;
+    const postCreator = post.createdBy._id;
 
     if (sessionUser) {
       const checkConditions = !hideReportBtn && sessionUser !== postCreator;
 
       setIsReportBtn(checkConditions);
-    }*/
-
-    setIsReportBtn(true);
+    }
   }
 
   const handleProfileClick = () => {
