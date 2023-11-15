@@ -1,37 +1,7 @@
-import { connectToDB } from "@utils/database";
-import Report from "@models/report";
-
-export const GET = async (req, { params }): Promise<Response> => {
-  try {
-    await connectToDB();
-
-    const report = await Report.findById(params.id).populate("creator");
-
-    if (!report) {
-      return new Response("Report not found", { status: 404 });
-    }
-
-    return new Response(JSON.stringify(report), { status: 200 });
-  } catch (error) {
-    return new Response("Failed to fetch report", { status: 500 });
-  }
-}
+import reportController from "@controllers/index";
 
 export const DELETE =  async (req, { params }): Promise<Response> => {
-  try {
-    await connectToDB();
+  const { status, response } = await reportController.reportController().deleteReport(params.id);
 
-    const report = await Report.findById(params.id);
-
-    if (!report) {
-      return new Response("Report not found", { status: 404 });
-    }
-
-    // @ts-ignore
-    await Report.deleteOne(report);
-
-    return new Response("Prompt deleted successfully", { status: 200 });
-  } catch (error) {
-    return new Response("Error deleting report", { status: 500 });
-  }
+  return new Response(JSON.stringify(response), { status });
 }
