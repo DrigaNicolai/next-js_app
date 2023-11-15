@@ -29,7 +29,7 @@ export const getAvailableRoles = (action: string): Array<string> => {
     case "DELETE-/api/tags/:id":
       return ["admin", "moderator"];
     case "POST-/api/tag-applications/create": // TODO: DELETE THIS CASE, ONLY FOR USER ROLE
-      return ["admin"];
+      return ["admin", "user"];
     case "DELETE-/api/tag-applications/:id":
       return ["admin", "moderator"];
     case "POST-/api/tags/create/application":
@@ -42,6 +42,12 @@ export const getAvailableRoles = (action: string): Array<string> => {
       return ["admin", "moderator", "user"];
     case "DELETE-/api/posts/:id":
       return ["admin", "moderator", "user"];
+    case "GET-/api/reports":
+      return ["admin", "moderator"];
+    case "POST-/api/reports/create":
+      return ["admin", "moderator", "user"];
+    case "DELETE-/api/reports/:id":
+      return ["admin", "moderator"];
     default:
       return ["user"];
   }
