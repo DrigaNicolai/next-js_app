@@ -51,7 +51,7 @@ const Page = () => {
 
     if (hasConfirmed) {
       try {
-        const response = await fetch(`/api/warning-types/${warningType._id.toString()}`, {
+        const response = await fetch(`/api/warning-types/${String(warningType._id)}`, {
           method: "DELETE",
           headers: {
             "Authorization": `Bearer ${session?.token}`
