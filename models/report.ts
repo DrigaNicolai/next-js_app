@@ -15,7 +15,7 @@ const ReportSchema = new Schema<IReport>({
   prompt_id: {
     type: Schema.Types.ObjectId,
     ref: "Prompt",
-    required: [true, "Prompt is required to send a report."]
+    required: [true, "Post is required to send a report."]
   },
   message: {
     type: String,
