@@ -2,8 +2,8 @@
 
 import React, { useState } from "react";
 import PromptCard from "@components/PromptCard";
-import ReportForm from "@components/ReportForm";
-import {useSession} from "next-auth/react";
+import ReportForm from "@components/form/ReportForm";
+import { useSession } from "next-auth/react";
 import { IPrompt } from "@ts/interface/prompt";
 import CustomSession from "@ts/interface/customAuth";
 
@@ -36,14 +36,16 @@ const ReportModal = ({ isVisible, onClose, reportedPost }: IReportModal) => {
     setSubmitting(true);
 
     try {
-      console.log("Successfully submitted");
-      const response = await fetch("/api/reports/new", {
+      const response = await fetch("/api/reports/create", {
         method: "POST",
         body: JSON.stringify({
-          promptId: reportedPost._id,
-          userId: session?.user.id,
+          prompt_id: reportedPost._id,
+          victim_id: session?.user.id,
           message: reportMsg
-        })
+        }),
+        headers: {
+          "Authorization": `Bearer ${session?.token}`
+        }
       });
 
       if (response.ok) {

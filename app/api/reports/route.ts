@@ -1,14 +1,7 @@
-import { connectToDB } from "@utils/database";
-import Report from "@models/report";
+import reportController from "@controllers/index";
 
-export const GET = async (req): Promise<Response> => {
-  try {
-    await connectToDB();
+export const GET = async (req, res): Promise<Response> => {
+  const { status, response } = await reportController.reportController().getAllReports();
 
-    const reports = await Report.find({}).populate("victim_id").populate("prompt_id");
-
-    return new Response(JSON.stringify(reports), { status: 200 });
-  } catch (error) {
-    return new Response("Failed to fetch all reports", { status: 500 });
-  }
+  return new Response(JSON.stringify(response), { status });
 }

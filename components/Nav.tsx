@@ -51,6 +51,9 @@ const Nav = () => {
         <Link href="/users" className="flex gap-2 flex-center">
           <p className="modules_text">Users</p>
         </Link>
+        <Link href="/reports" className="flex gap-2 flex-center">
+          <p className="modules_text">Reports</p>
+        </Link>
         <Link href="/tags" className="flex gap-2 flex-center">
           <p className="modules_text">Tags</p>
         </Link>

@@ -3,6 +3,7 @@ import '@styles/globals.css';
 import Nav from "@components/Nav";
 import Provider from "@components/Provider";
 import React from "react";
+import { connectToDB } from "@utils/database";
 
 export const metadata = {
   title: "Social Posts",
@@ -14,6 +15,8 @@ interface IRootLayout {
 }
 
 const RootLayout = ({ children }: IRootLayout) => {
+  connectToDB();
+
   return (
     <html lang="en">
       <body>

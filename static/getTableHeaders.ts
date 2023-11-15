@@ -17,12 +17,20 @@ export const getTableHeaders = (module: string): Array<IHeaders> => {
       return [
         {text: "Name", value: "name"},
         {text: "Description", value: "description"}
-      ]
+      ];
     case "tagApplications":
       return [
         {text: "Username", value: "username"},
         {text: "Tag name", value: "tag_name"},
         {text: "Description", value: "description"}
+      ];
+    case "reports":
+      return [
+        {text: "Victim name", value: "victim_name"},
+        {text: "Report message", value: "message"},
+        {text: "Post title", value: "post_title"},
+        {text: "Post text", value: "post_text"},
+        {text: "Post tag", value: "post_tag"}
       ]
     default:
       return [];
