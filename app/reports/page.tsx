@@ -58,7 +58,7 @@ const Reports = () => {
   }, []);
 
   const handleApprove = (item: IReport): void => {
-    console.log(`Temp approve for`, item);
+    router.push(`/warnings/create?report_id=${item._id}`);
   }
 
   const handleDelete = async (report: IReport): Promise<any> => {
