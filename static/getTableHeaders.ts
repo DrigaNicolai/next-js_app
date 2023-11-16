@@ -31,7 +31,14 @@ export const getTableHeaders = (module: string): Array<IHeaders> => {
         {text: "Post title", value: "post_title"},
         {text: "Post text", value: "post_text"},
         {text: "Post tag", value: "post_tag"}
-      ]
+      ];
+    case "warnings":
+      return [
+        {text: "Moderator name", value: "moderator_name"},
+        {text: "Intruder name", value: "intruder_name"},
+        {text: "Warning type name", value: "warning_type_name"},
+        {text: "Comment", value: "comment"},
+      ];
     default:
       return [];
   }
