@@ -12,7 +12,7 @@ export default class ReportService {
   }
 
   async getReport(id: string): Promise<any> {
-    return Report.findById(id);
+    return Report.findById(id).populate("prompt_id");
   }
 
   async deleteReport(report: mongoose.Model<IReport>): Promise<any> {
