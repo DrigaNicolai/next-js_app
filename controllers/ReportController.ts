@@ -41,6 +41,29 @@ export default class ReportController {
     }
   }
 
+  async getReport(id: string): Promise<IResponse> {
+    try {
+      const report = await reportService.reportService().getReport(id);
+
+      if (!report) {
+        return {
+          status: 404,
+          response: { message: "Report not found" }
+        }
+      }
+
+      return {
+        status: 200,
+        response: report
+      }
+    } catch (error) {
+      return {
+        status: 500,
+        response: { message: `Failed to fetch report ${error.message}` }
+      }
+    }
+  }
+
   async deleteReport(id: string): Promise<IResponse> {
     try {
       const report = await reportService.reportService().getReport(id);

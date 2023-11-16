@@ -1,6 +1,5 @@
 import { IResponse } from "@ts/interface/global";
 import warningService from "@services/index";
-import postService from "@services";
 
 export default class WarningController {
   async getAllWarnings(): Promise<IResponse> {
@@ -44,12 +43,12 @@ export default class WarningController {
 
   async getWarning(id: string): Promise<IResponse> {
     try {
-      const warning = await postService.postService().getPost(id);
+      const warning = await warningService.warningService().getWarning(id);
 
       if (!warning) {
         return {
           status: 404,
-          response: { message: "Post not found" }
+          response: { message: "Warning not found" }
         }
       }
 
@@ -92,7 +91,7 @@ export default class WarningController {
         }
       }
 
-      await postService.postService().deletePost(warning);
+      await warningService.warningService().deleteWarning(warning);
 
       return {
         status: 200,
