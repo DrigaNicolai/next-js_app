@@ -1,26 +1,26 @@
-"use client";
+"use client"
 
 import { useUserRole } from "@middleware/useUserRole";
-import { AppRouterInstance } from "@node_modules/next/dist/shared/lib/app-router-context";
 import { useRouter } from "next/navigation";
+import { AppRouterInstance } from "@node_modules/next/dist/shared/lib/app-router-context";
 import { useSession } from "next-auth/react";
 import CustomSession from "@ts/interface/customAuth";
 import { useEffect, useState } from "react";
-import { IReport } from "@ts/interface/report";
+import { IWarning } from "@ts/interface/warning";
 import { IHeaders } from "@ts/interface/global";
 import { getTableHeaders } from "@static/getTableHeaders";
 import DataTable from "@components/DataTable";
 
-const Reports = () => {
+const Warnings = () => {
   const user = useUserRole(["admin", "moderator"]) as string;
   const router: AppRouterInstance = useRouter();
   const { data: session } = useSession() as unknown as CustomSession;
-  const [reports, setReports] = useState([] as Array<IReport>);
+  const [warnings, setWarnings] = useState([] as Array<IWarning>);
   const [headers, setHeaders] = useState([] as Array<IHeaders>);
 
   useEffect(() => {
-    const fetchReports = async (): Promise<void> => {
-      const response = await fetch(`/api/reports`, {
+    const fetchWarnings = async (): Promise<void> => {
+      const response = await fetch(`/api/warnings`, {
         method: "GET",
         headers: {
           "Authorization": `Bearer ${session?.token}`
@@ -32,19 +32,18 @@ const Reports = () => {
       const parsedData = data.map((item) => (
         {
           _id: item._id,
-          victim_name: item.victim_id.username,
-          message: item.message,
-          post_title: item.prompt_id.title,
-          post_text: item.prompt_id.text,
-          post_tag: item.prompt_id.tag_id.name
+          moderator_name: item.moderator_id.username,
+          intruder_name: item.intruder_id.username,
+          warning_type_name: item.warning_type_id.name,
+          comment: item.comment
         }
       ));
 
-      setReports(parsedData);
+      setWarnings(parsedData);
     }
 
     const fetchHeaders = (): void => {
-      const response = getTableHeaders("reports");
+      const response = getTableHeaders("warnings");
 
       setHeaders(response);
     }
@@ -53,22 +52,22 @@ const Reports = () => {
       router.replace("/");
     }
 
-    fetchReports();
+    fetchWarnings();
     fetchHeaders();
   }, []);
 
-  const handleApprove = (item: IReport): void => {
-    router.push(`/warnings/create?report_id=${item._id}`);
+  const handleEdit = (id: string): void => {
+    router.push(`/warnings/${id}/edit`);
   }
 
-  const handleDelete = async (report: IReport): Promise<any> => {
+  const handleDelete = async (warning: IWarning): Promise<void> => {
     const hasConfirmed = confirm(
-      "Are you sure you want to delete this report?"
+      "Are you sure you want to delete this warning?"
     );
 
     if (hasConfirmed) {
       try {
-        const response = await fetch(`/api/reports/${String(report._id)}`, {
+        const response = await fetch(`/api/warnings/${String(warning._id)}`, {
           method: "DELETE",
           headers: {
             "Authorization": `Bearer ${session?.token}`
@@ -76,9 +75,9 @@ const Reports = () => {
         });
 
         if (response.ok) {
-          const filteredReports = reports.filter((item) => item._id !== report._id);
+          const filteredWarnings = warnings.filter((item) => item._id !== warning._id);
 
-          setReports(filteredReports);
+          setWarnings(filteredWarnings);
         }
       } catch (error) {
         console.log(error);
@@ -89,20 +88,20 @@ const Reports = () => {
   return (
     <div className="w-full max-w-full flex-start flex-col">
       <h1 className="head_text text-left">
-        <span className="blue_gradient">Reports table</span>
+        <span className="blue_gradient">Warnings table</span>
       </h1>
-      {!reports.length ? (
-        <p className="desc text-left">There are no reports</p>
+      {!warnings.length ? (
+        <p className="desc text-left">There are no warnings</p>
       ) : (
         <DataTable
-          data={reports}
+          data={warnings}
           headers={headers}
-          handleApprove={handleApprove}
+          handleEdit={handleEdit}
           handleDelete={handleDelete}
         />
       )}
     </div>
-  )
+  );
 }
 
-export default Reports;
+export default Warnings;

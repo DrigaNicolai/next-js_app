@@ -12,6 +12,8 @@ export const getAvailableRoles = (action: string): Array<string> => {
       return ["admin"];
     case "POST-/api/warning-types/create":
       return ["admin"];
+    case "GET-/api/warning-types":
+      return ["admin", "moderator", "user"];
     case "GET-/api/warning-types/:id":
       return ["admin"];
     case "PATCH-/api/warning-types/:id":
@@ -46,8 +48,20 @@ export const getAvailableRoles = (action: string): Array<string> => {
       return ["admin", "moderator"];
     case "POST-/api/reports/create":
       return ["admin", "moderator", "user"];
+    case "GET-/api/reports/:id":
+      return ["admin", "moderator"];
     case "DELETE-/api/reports/:id":
       return ["admin", "moderator"];
+    case "GET-/api/warnings":
+      return ["admin", "moderator"];
+    case "POST-/api/warnings/create":
+      return ["admin", "moderator"];
+    case "GET-/api/warnings/:id":
+      return ["admin"];
+    case "PATCH-/api/warnings/:id":
+      return ["admin"];
+    case "DELETE-/api/warnings/:id":
+      return ["admin"];
     default:
       return ["user"];
   }

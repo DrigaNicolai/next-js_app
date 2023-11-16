@@ -2,7 +2,7 @@ interface IDataTable {
   headers: Array<any>;
   data: Array<any>;
   handleDelete?: (item: any) => void;
-  handleEdit?: (item: any) => void;
+  handleEdit?: (id: string) => void;
   handleApprove?: (item: any) => void;
 }
 
