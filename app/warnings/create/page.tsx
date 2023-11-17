@@ -29,6 +29,7 @@ const CreateWarning = () => {
     comment: ""
   } as IWarning);
   const [reportData, setReportData] = useState("" as string);
+  const [postId, setPostId] = useState("" as string);
 
   useEffect(() => {
     const fetchUsers = async (): Promise<any> => {
@@ -69,6 +70,7 @@ const CreateWarning = () => {
 
       setWarning({ ...warning, intruder_id: data.prompt_id.createdBy });
       setReportData(`${data.prompt_id.title}`);
+      setPostId(data.prompt_id._id);
     }
 
     if (!user) {
@@ -99,7 +101,7 @@ const CreateWarning = () => {
       });
 
       if (createResponse.ok) {
-        const deleteResponse = await fetch(`/api/reports/${reportId}`, {
+        const deleteResponse = await fetch(`/api/posts/${postId}`, {
           method: "DELETE",
           headers: {
             "Authorization": `Bearer ${session?.token}`
