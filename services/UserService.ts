@@ -26,4 +26,8 @@ export default class UserService {
       .populate("createdBy")
       .populate("tag_id");
   }
+
+  async getTotalUsers(): Promise<any> {
+    return User.find({}).count();
+  }
 }
