@@ -63,6 +63,9 @@ const Nav = () => {
         <Link href="/warning-types" className="flex gap-2 flex-center">
           <p className="modules_text">Warning Types</p>
         </Link>
+        <Link href="/statistics" className="flex gap-2 flex-center">
+          <p className="modules_text">Statistics</p>
+        </Link>
       </div>
 
       {/* Desktop Navigation */}
