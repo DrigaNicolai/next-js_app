@@ -62,6 +62,8 @@ export const getAvailableRoles = (action: string): Array<string> => {
       return ["admin"];
     case "DELETE-/api/warnings/:id":
       return ["admin"];
+    case "GET-/api/statistics/profile/:id":
+      return ["admin", "moderator", "user"];
     default:
       return ["user"];
   }

@@ -10,4 +10,5 @@ export interface IWarning {
   moderator_name?: string;
   intruder_name?: string;
   warning_type_name?: string;
+  createdAt?: string;
 }

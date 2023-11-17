@@ -22,4 +22,37 @@ export default class PostService {
   async deletePost(post: mongoose.Model<IPrompt>): Promise<any> {
     return Prompt.deleteOne(post);
   }
+
+  async getTotalPosts(): Promise<any> {
+    return Prompt.find({}).count();
+  }
+
+  async getTotalUserPosts(userId: string): Promise<any> {
+    return Prompt.find({ createdBy: userId }).count();
+  }
+
+  async getFrequentTags(quantity: number): Promise<any> {
+    return Prompt.aggregate([
+      {
+        $lookup: {
+          from: "tags",
+          localField: "tag_id",
+          foreignField: "_id",
+          as: "tagData"
+        }
+      },
+      {
+        $unwind: "$tagData"
+      },
+      {
+        $group: {
+          _id: "$tagData._id",
+          tag_name: { $first: "$tagData.name" },
+          count: { $sum: 1 }
+        }
+      },
+      { $sort: { count: -1 } },
+      { $limit: quantity }
+    ]);
+  }
 }
