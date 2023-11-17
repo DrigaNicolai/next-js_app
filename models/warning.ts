@@ -30,7 +30,7 @@ const WarningSchema = new Schema<IWarning>({
     ],
     required: [true, "Warning comment is required."]
   },
-});
+}, { timestamps: true });
 
 const Warning: Model<IWarning> = models.Warning || model<IWarning>("Warning", WarningSchema);
 
