@@ -27,6 +27,10 @@ export default class PostService {
     return Prompt.find({}).count();
   }
 
+  async getTotalUserPosts(userId: string): Promise<any> {
+    return Prompt.find({ createdBy: userId }).count();
+  }
+
   async getFrequentTags(quantity: number): Promise<any> {
     return Prompt.aggregate([
       {
