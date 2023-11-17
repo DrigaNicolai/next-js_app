@@ -5,6 +5,7 @@ import TagApplicationController from "@controllers/TagApplicationController";
 import PostController from "@controllers/PostController";
 import ReportController from "@controllers/ReportController";
 import WarningController from "@controllers/WarningController";
+import StatisticController from "@controllers/StatisticController";
 
 export default {
   userController: () => new UserController(),
@@ -13,5 +14,6 @@ export default {
   tagApplicationController: () => new TagApplicationController(),
   postController: () => new PostController(),
   reportController: () => new ReportController(),
-  warningController: () => new WarningController()
+  warningController: () => new WarningController(),
+  statisticController: () => new StatisticController()
 }
