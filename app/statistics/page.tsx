@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { IGlobalStatistic, IFrequentTags } from "@ts/interface/statistic";
+import { IGlobalStatistic, IFrequentTag } from "@ts/interface/statistic";
 
 const Statistics = () => {
   const [statisticsData, setStatisticsData] = useState({} as IGlobalStatistic);
@@ -44,7 +44,7 @@ const Statistics = () => {
 
       <h2 className="mb-2 mt-8 text-lg font-semibold text-gray-900">Top tags:</h2>
       <ol className="max-w-md space-y-1 text-gray-500 list-decimal list-inside">
-        { statisticsData.frequent_tags.map((tag: IFrequentTags ) => (
+        {statisticsData.frequent_tags && statisticsData?.frequent_tags.map((tag: IFrequentTag ) => (
             <li key={tag._id}>
               <span className="font-semibold text-gray-900 mr-1.5">
                 {tag.tag_name}
