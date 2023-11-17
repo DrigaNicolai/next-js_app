@@ -117,7 +117,30 @@ export default class UserController {
     } catch (error) {
       return {
         status: 500,
-        response: {message: `Failed to update user ${error.message}`},
+        response: {message: `Failed to fetch user posts ${error.message}`},
+      };
+    }
+  }
+
+  async getUserWarnings(id: string) {
+    try {
+      const warnings = await userService.userService().getUserWarnings(id);
+
+      if (!warnings) {
+        return {
+          status: 404,
+          response: {message: "User warnings not found"},
+        };
+      }
+
+      return {
+        status: 200,
+        response: warnings,
+      };
+    } catch (error) {
+      return {
+        status: 500,
+        response: {message: `Failed to fetch user warnings ${error.message}`},
       };
     }
   }
