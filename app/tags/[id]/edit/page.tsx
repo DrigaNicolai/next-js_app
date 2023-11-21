@@ -28,13 +28,17 @@ const EditTag = ({ params }: ITagEdit) => {
 
   useEffect(() => {
     const getTagDetails = async (): Promise<any> => {
-      const response = await fetch(`/api/tags/${params.id}`);
-      const data = await response.json();
+      try {
+        const response = await fetch(`/api/tags/${params.id}`);
+        const data = await response.json();
 
-      setTag({
-        name: data.name,
-        description: data.description
-      });
+        setTag({
+          name: data.name,
+          description: data.description
+        });
+      } catch (error) {
+        console.log(error);
+      }
     }
 
     if(!user) {

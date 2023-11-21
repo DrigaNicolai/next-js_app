@@ -33,44 +33,56 @@ const CreateWarning = () => {
 
   useEffect(() => {
     const fetchUsers = async (): Promise<any> => {
-      const response = await fetch(`/api/users`, {
-        method: "GET",
-        headers: {
-          "Authorization": `Bearer ${session?.token}`
-        }
-      });
+      try {
+        const response = await fetch(`/api/users`, {
+          method: "GET",
+          headers: {
+            "Authorization": `Bearer ${session?.token}`
+          }
+        });
 
-      const data = await response.json();
+        const data = await response.json();
 
-      setUsers(data);
+        setUsers(data);
+      } catch (error) {
+        console.log(error);
+      }
     }
 
     const fetchWarningTypes = async (): Promise<any> => {
-      const response = await fetch(`/api/warning-types`, {
-        method: "GET",
-        headers: {
-          "Authorization": `Bearer ${session?.token}`
-        }
-      });
+      try {
+        const response = await fetch(`/api/warning-types`, {
+          method: "GET",
+          headers: {
+            "Authorization": `Bearer ${session?.token}`
+          }
+        });
 
-      const data = await response.json();
+        const data = await response.json();
 
-      setWarningTypes(data);
+        setWarningTypes(data);
+      } catch (error) {
+        console.log(error);
+      }
     }
 
     const fetchReport = async(): Promise<any> => {
-      const response = await fetch(`/api/reports/${reportId}`, {
-        method: "GET",
-        headers: {
-          "Authorization": `Bearer ${session?.token}`
-        }
-      });
+      try {
+        const response = await fetch(`/api/reports/${reportId}`, {
+          method: "GET",
+          headers: {
+            "Authorization": `Bearer ${session?.token}`
+          }
+        });
 
-      const data = await response.json();
+        const data = await response.json();
 
-      setWarning({ ...warning, intruder_id: data.prompt_id.createdBy });
-      setReportData(`${data.prompt_id.title}`);
-      setPostId(data.prompt_id._id);
+        setWarning({ ...warning, intruder_id: data.prompt_id.createdBy });
+        setReportData(`${data.prompt_id.title}`);
+        setPostId(data.prompt_id._id);
+      } catch (error) {
+        console.log(error);
+      }
     }
 
     if (!user) {

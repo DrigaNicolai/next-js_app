@@ -28,13 +28,17 @@ const EditWarningType = ({ params }: IWarningTypeEdit) => {
 
   useEffect(() => {
     const getWarningTypeDetails = async (): Promise<any> => {
-      const response = await fetch(`/api/warning-types/${params.id}`);
-      const data = await response.json();
+      try {
+        const response = await fetch(`/api/warning-types/${params.id}`);
+        const data = await response.json();
 
-      setWarningTypeData({
-        name: data.name,
-        points_number: data.points_number
-      });
+        setWarningTypeData({
+          name: data.name,
+          points_number: data.points_number
+        });
+      } catch (error) {
+        console.log(error);
+      }
     }
 
     if (!user) {

@@ -8,13 +8,17 @@ const Statistics = () => {
 
   useEffect(() => {
     const fetchStatistics = async (): Promise<void> => {
-      const response = await fetch(`/api/statistics/global`, {
-        method: "GET"
-      });
+      try {
+        const response = await fetch(`/api/statistics/global`, {
+          method: "GET"
+        });
 
-      const data = await response.json();
+        const data = await response.json();
 
-      setStatisticsData(data);
+        setStatisticsData(data);
+      } catch (error) {
+        console.log(error);
+      }
     }
 
     fetchStatistics();

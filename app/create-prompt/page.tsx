@@ -24,16 +24,20 @@ const CreatePrompt = () => {
 
   useEffect(() => {
     const fetchTags = async (): Promise<any> => {
-      const response = await fetch(`/api/tags`, {
-        method: "GET",
-        headers: {
-          "Authorization": `Bearer ${session?.token}`
-        }
-      });
+      try {
+        const response = await fetch(`/api/tags`, {
+          method: "GET",
+          headers: {
+            "Authorization": `Bearer ${session?.token}`
+          }
+        });
 
-      const data = await response.json();
+        const data = await response.json();
 
-      setTags(data);
+        setTags(data);
+      } catch (error) {
+        console.log(error);
+      }
     }
 
     fetchTags();

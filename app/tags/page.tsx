@@ -21,13 +21,17 @@ const Tags = () => {
 
   useEffect(() => {
     const fetchTags = async (): Promise<void> => {
-      const response = await fetch(`/api/tags`, {
-        method: "GET"
-      });
+      try {
+        const response = await fetch(`/api/tags`, {
+          method: "GET"
+        });
 
-      const data = await response.json();
+        const data = await response.json();
 
-      setTags(data);
+        setTags(data);
+      } catch (error) {
+        console.log(error);
+      }
     }
 
     const fetchHeaders = (): void => {

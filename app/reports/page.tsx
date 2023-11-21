@@ -20,27 +20,31 @@ const Reports = () => {
 
   useEffect(() => {
     const fetchReports = async (): Promise<void> => {
-      const response = await fetch(`/api/reports`, {
-        method: "GET",
-        headers: {
-          "Authorization": `Bearer ${session?.token}`
-        }
-      });
+      try {
+        const response = await fetch(`/api/reports`, {
+          method: "GET",
+          headers: {
+            "Authorization": `Bearer ${session?.token}`
+          }
+        });
 
-      const data = await response.json();
+        const data = await response.json();
 
-      const parsedData = data.map((item) => (
-        {
-          _id: item._id,
-          victim_name: item.victim_id.username,
-          message: item.message,
-          post_title: item.prompt_id.title,
-          post_text: item.prompt_id.text,
-          post_tag: item.prompt_id.tag_id.name
-        }
-      ));
+        const parsedData = data.map((item) => (
+          {
+            _id: item._id,
+            victim_name: item.victim_id.username,
+            message: item.message,
+            post_title: item.prompt_id.title,
+            post_text: item.prompt_id.text,
+            post_tag: item.prompt_id.tag_id.name
+          }
+        ));
 
-      setReports(parsedData);
+        setReports(parsedData);
+      } catch (error) {
+        console.log(error);
+      }
     }
 
     const fetchHeaders = (): void => {

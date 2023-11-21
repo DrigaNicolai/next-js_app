@@ -20,26 +20,30 @@ const Warnings = () => {
 
   useEffect(() => {
     const fetchWarnings = async (): Promise<void> => {
-      const response = await fetch(`/api/warnings`, {
-        method: "GET",
-        headers: {
-          "Authorization": `Bearer ${session?.token}`
-        }
-      });
+      try {
+        const response = await fetch(`/api/warnings`, {
+          method: "GET",
+          headers: {
+            "Authorization": `Bearer ${session?.token}`
+          }
+        });
 
-      const data = await response.json();
+        const data = await response.json();
 
-      const parsedData = data.map((item) => (
-        {
-          _id: item._id,
-          moderator_name: item.moderator_id.username,
-          intruder_name: item.intruder_id.username,
-          warning_type_name: item.warning_type_id.name,
-          comment: item.comment
-        }
-      ));
+        const parsedData = data.map((item) => (
+          {
+            _id: item._id,
+            moderator_name: item.moderator_id.username,
+            intruder_name: item.intruder_id.username,
+            warning_type_name: item.warning_type_id.name,
+            comment: item.comment
+          }
+        ));
 
-      setWarnings(parsedData);
+        setWarnings(parsedData);
+      } catch (error) {
+        console.log(error);
+      }
     }
 
     const fetchHeaders = (): void => {

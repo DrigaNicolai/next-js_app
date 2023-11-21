@@ -18,10 +18,14 @@ const UserProfile = ({ params }: IUserProfile) => {
 
   useEffect(() => {
     const fetchPosts = async (): Promise<void> => {
-      const response = await fetch(`/api/users/${params?.id}/posts`);
-      const data = await response.json();
+      try {
+        const response = await fetch(`/api/users/${params?.id}/posts`);
+        const data = await response.json();
 
-      setUserPosts(data);
+        setUserPosts(data);
+      } catch (error) {
+        console.log(error);
+      }
     }
 
     if (params?.id) {

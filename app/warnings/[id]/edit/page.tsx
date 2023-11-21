@@ -36,45 +36,57 @@ const EditWarning = ({ params }: IWarningEdit) => {
 
   useEffect(() => {
     const fetchUsers = async (): Promise<any> => {
-      const response = await fetch(`/api/users`, {
-        method: "GET",
-        headers: {
-          "Authorization": `Bearer ${session?.token}`
-        }
-      });
+      try {
+        const response = await fetch(`/api/users`, {
+          method: "GET",
+          headers: {
+            "Authorization": `Bearer ${session?.token}`
+          }
+        });
 
-      const data = await response.json();
+        const data = await response.json();
 
-      setUsers(data);
+        setUsers(data);
+      } catch (error) {
+        console.log(error);
+      }
     }
 
     const fetchWarningTypes = async (): Promise<any> => {
-      const response = await fetch(`/api/warning-types`, {
-        method: "GET",
-        headers: {
-          "Authorization": `Bearer ${session?.token}`
-        }
-      });
+      try {
+        const response = await fetch(`/api/warning-types`, {
+          method: "GET",
+          headers: {
+            "Authorization": `Bearer ${session?.token}`
+          }
+        });
 
-      const data = await response.json();
+        const data = await response.json();
 
-      setWarningTypes(data);
+        setWarningTypes(data);
+      } catch (error) {
+        console.log(error);
+      }
     }
 
     const getWarningDetails = async (): Promise<any> => {
-      const response = await fetch(`/api/warnings/${params.id}`, {
-        method: "GET",
-        headers: {
-          "Authorization": `Bearer ${session?.token}`
-        }
-      });
-      const data = await response.json();
+      try {
+        const response = await fetch(`/api/warnings/${params.id}`, {
+          method: "GET",
+          headers: {
+            "Authorization": `Bearer ${session?.token}`
+          }
+        });
+        const data = await response.json();
 
-      setWarning({
-        intruder_id: data.intruder_id,
-        warning_type_id: data.warning_type_id,
-        comment: data.comment
-      })
+        setWarning({
+          intruder_id: data.intruder_id,
+          warning_type_id: data.warning_type_id,
+          comment: data.comment
+        });
+      } catch (error) {
+        console.log(error);
+      }
     }
 
     if (!user) {
