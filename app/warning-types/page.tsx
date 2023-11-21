@@ -21,13 +21,17 @@ const Page = () => {
 
   useEffect(() => {
     const fetchWarningTypes = async (): Promise<void> => {
-      const response = await fetch(`/api/warning-types`, {
-        method: "GET"
-      });
+      try {
+        const response = await fetch(`/api/warning-types`, {
+          method: "GET"
+        });
 
-      const data = await response.json();
+        const data = await response.json();
 
-      setWarningTypes(data);
+        setWarningTypes(data);
+      } catch (error) {
+        console.log(error);
+      }
     }
 
     const fetchHeaders = (): void => {

@@ -30,28 +30,36 @@ const EditUser = ({ params }: IUserEdit) => {
 
   useEffect(() => {
     const getUserDetails = async (): Promise<any> => {
-      const response = await fetch(`/api/users/${params.id}`);
-      const data = await response.json() as IUser;
+      try {
+        const response = await fetch(`/api/users/${params.id}`);
+        const data = await response.json() as IUser;
 
-      setUserData({
-        _id: data._id,
-        username: data.username,
-        email: data.email,
-        role: data.role_id._id
-      });
+        setUserData({
+          _id: data._id,
+          username: data.username,
+          email: data.email,
+          role: data.role_id._id
+        });
+      } catch (error) {
+        console.log(error);
+      }
     }
 
     const getRoles = async (): Promise<any> => {
-      const response = await fetch(`/api/roles`, {
-        method: "GET",
-        headers: {
-          "Authorization": `Bearer ${session?.token}`
-        }
-      });
+      try {
+        const response = await fetch(`/api/roles`, {
+          method: "GET",
+          headers: {
+            "Authorization": `Bearer ${session?.token}`
+          }
+        });
 
-      const data = await response.json() as Array<IRole>;
+        const data = await response.json() as Array<IRole>;
 
-      setRoles(data);
+        setRoles(data);
+      } catch (error) {
+        console.log(error);
+      }
     }
 
     if (!user) {

@@ -29,31 +29,39 @@ const EditPrompt = () => {
 
   useEffect(() => {
     const getPostDetails = async () => {
-      const response = await fetch(`/api/posts/${postId}`);
-      const data = await response.json() as IPrompt;
+      try {
+        const response = await fetch(`/api/posts/${postId}`);
+        const data = await response.json() as IPrompt;
 
-      setPost({
-        title: data.title,
-        text: data.text,
-        tag_id: data.tag_id
-      });
+        setPost({
+          title: data.title,
+          text: data.text,
+          tag_id: data.tag_id
+        });
 
-      if (session?.user.id !== String(data.createdBy)) {
-        router.replace("/");
+        if (session?.user.id !== String(data.createdBy)) {
+          router.replace("/");
+        }
+      } catch (error) {
+        console.log(error);
       }
     }
 
     const fetchTags = async (): Promise<any> => {
-      const response = await fetch(`/api/tags`, {
-        method: "GET",
-        headers: {
-          "Authorization": `Bearer ${session?.token}`
-        }
-      });
+      try {
+        const response = await fetch(`/api/tags`, {
+          method: "GET",
+          headers: {
+            "Authorization": `Bearer ${session?.token}`
+          }
+        });
 
-      const data = await response.json() as Array<ITag>;
+        const data = await response.json() as Array<ITag>;
 
-      setTags(data);
+        setTags(data);
+      } catch (error) {
+        console.log(error);
+      }
     }
 
     if(!user) {

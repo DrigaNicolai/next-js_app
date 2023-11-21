@@ -3,7 +3,7 @@ import { IPrompt } from "@ts/interface/prompt";
 import { IWarning } from "@ts/interface/warning";
 import DataTable from "@components/DataTable";
 import { IHeaders } from "@ts/interface/global";
-import {IUserStatistic} from "@ts/interface/statistic";
+import { IUserStatistic } from "@ts/interface/statistic";
 
 interface IProfile {
   name: string;

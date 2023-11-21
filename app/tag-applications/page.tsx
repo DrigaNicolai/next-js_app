@@ -21,17 +21,21 @@ const TagApplications = () => {
 
   useEffect(() => {
     const fetchTagApplications = async (): Promise<void> => {
-      const response = await fetch(`/api/tag-applications`, {
-        method: "GET"
-      });
+      try {
+        const response = await fetch(`/api/tag-applications`, {
+          method: "GET"
+        });
 
-      const data = await response.json();
+        const data = await response.json();
 
-      const parsedData = data.map((item) => (
-        { _id: item._id, username: item.applicant_id.username, tag_name: item.name, description: item.description }
-      ));
+        const parsedData = data.map((item) => (
+          { _id: item._id, username: item.applicant_id.username, tag_name: item.name, description: item.description }
+        ));
 
-      setTagApplications(parsedData);
+        setTagApplications(parsedData);
+      } catch (error) {
+        console.log(error);
+      }
     }
 
     const fetchHeaders = (): void => {

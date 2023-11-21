@@ -24,27 +24,35 @@ const MyProfile = () => {
 
   useEffect(() => {
     const fetchPosts = async (): Promise<void> => {
-      const response = await fetch(`/api/users/${session?.user.id}/posts`);
-      const data = await response.json();
+      try {
+        const response = await fetch(`/api/users/${session?.user.id}/posts`);
+        const data = await response.json();
 
-      setMyPosts(data);
+        setMyPosts(data);
+      } catch (error) {
+        console.log(error);
+      }
     }
 
     const fetchWarnings = async (): Promise<void> => {
-      const response = await fetch(`/api/users/${session?.user.id}/warnings`, {
-        method: "GET"
-      });
-      const data = await response.json();
-      const parsedData = data.map((item) => (
-        {
-          moderator_name: item.moderator_id.username,
-          warning_type_name: item.warning_type_id.name,
-          comment: item.comment,
-          createdAt: new Date(item.createdAt).toLocaleString()
-        }
-      ));
+      try {
+        const response = await fetch(`/api/users/${session?.user.id}/warnings`, {
+          method: "GET"
+        });
+        const data = await response.json();
+        const parsedData = data.map((item) => (
+          {
+            moderator_name: item.moderator_id.username,
+            warning_type_name: item.warning_type_id.name,
+            comment: item.comment,
+            createdAt: new Date(item.createdAt).toLocaleString()
+          }
+        ));
 
-      setMyWarnings(parsedData);
+        setMyWarnings(parsedData);
+      } catch (error) {
+        console.log(error)
+      }
     }
 
     const fetchHeaders = (): void => {
@@ -54,15 +62,19 @@ const MyProfile = () => {
     }
 
     const fetchStatistics = async (): Promise<void> => {
-      const response = await fetch(`/api/statistics/profile/${session?.user.id}`, {
-        method: "GET",
-        headers: {
-          "Authorization": `Bearer ${session?.token}`
-        }
-      });
-      const data = await response.json();
+      try {
+        const response = await fetch(`/api/statistics/profile/${session?.user.id}`, {
+          method: "GET",
+          headers: {
+            "Authorization": `Bearer ${session?.token}`
+          }
+        });
+        const data = await response.json();
 
-      setMyStatistics(data);
+        setMyStatistics(data);
+      } catch (error) {
+        console.log(error);
+      }
     }
 
     if (session?.user.id) {

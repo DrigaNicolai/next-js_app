@@ -20,20 +20,24 @@ const Users = () => {
 
   useEffect(() => {
     const fetchUsers = async (): Promise<void> => {
-      const response = await fetch(`/api/users`,{
-        method: "GET",
-        headers: {
-          "Authorization": `Bearer ${session?.token}`
-        }
-      });
+      try {
+        const response = await fetch(`/api/users`,{
+          method: "GET",
+          headers: {
+            "Authorization": `Bearer ${session?.token}`
+          }
+        });
 
-      const data = await response.json();
+        const data = await response.json();
 
-      const parsedData = data.map((item) => (
-        { _id: item._id, email: item.email, username: item.username, role: item.role_id.name }
-      ));
+        const parsedData = data.map((item) => (
+          { _id: item._id, email: item.email, username: item.username, role: item.role_id.name }
+        ));
 
-      setUsers(parsedData);
+        setUsers(parsedData);
+      } catch (error) {
+        console.log(error);
+      }
     }
 
     const fetchHeaders = (): void => {

@@ -40,10 +40,14 @@ const Feed = () => {
   const [reportedPost, setReportedPost] = useState({} as IPrompt);
 
   const fetchPosts = async (): Promise<void> => {
-    const response = await fetch("/api/posts");
-    const data = await response.json();
+    try {
+      const response = await fetch("/api/posts");
+      const data = await response.json();
 
-    setAllPosts(data);
+      setAllPosts(data);
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   useEffect((): void => {
