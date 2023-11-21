@@ -45,18 +45,27 @@ const Nav = () => {
         <p className="logo_text">Social Posts</p>
       </Link>
 
-      {/*TODO: REMOVE IT*/}
-      <div> USER ROLE: { userRoleName }</div>
+      {/* Desktop Navigation */}
       <div className="flex gap-3 flex-center">
-        <Link href="/users" className="flex gap-2 flex-center">
-          <p className="modules_text">Users</p>
-        </Link>
-        <Link href="/reports" className="flex gap-2 flex-center">
-          <p className="modules_text">Reports</p>
-        </Link>
-        <Link href="/warnings" className="flex gap-2 flex-center">
-          <p className="modules_text">Warnings</p>
-        </Link>
+        {userRoleName === "admin" ? (
+          <Link href="/users" className="flex gap-2 flex-center">
+            <p className="modules_text">Users</p>
+          </Link>
+        ) : (
+          <></>
+        )}
+        {["admin", "moderator"].includes(userRoleName) ? (
+          <>
+            <Link href="/reports" className="flex gap-2 flex-center">
+              <p className="modules_text">Reports</p>
+            </Link>
+            <Link href="/warnings" className="flex gap-2 flex-center">
+              <p className="modules_text">Warnings</p>
+            </Link>
+          </>
+          ) : (
+          <></>
+        )}
         <Link href="/tags" className="flex gap-2 flex-center">
           <p className="modules_text">Tags</p>
         </Link>
@@ -68,7 +77,6 @@ const Nav = () => {
         </Link>
       </div>
 
-      {/* Desktop Navigation */}
       <div className="sm:flex hidden">
         { session?.user ? (
           <div className="flex gap-3 md:gap-5">
@@ -136,6 +144,58 @@ const Nav = () => {
                   onClick={() => setToggleDropdown(false)}
                 >
                   Create Prompt
+                </Link>
+                {userRoleName === "admin" ? (
+                  <Link
+                    href="/users"
+                    className="dropdown_link"
+                    onClick={() => setToggleDropdown(false)}
+                  >
+                    Users
+                  </Link>
+                ) : (
+                  <></>
+                )}
+                {["admin", "moderator"].includes(userRoleName) ? (
+                  <>
+                    <Link
+                      href="/reports"
+                      className="dropdown_link"
+                      onClick={() => setToggleDropdown(false)}
+                    >
+                      Reports
+                    </Link>
+                    <Link
+                      href="/warnings"
+                      className="dropdown_link"
+                      onClick={() => setToggleDropdown(false)}
+                    >
+                      Warnings
+                    </Link>
+                  </>
+                ) : (
+                  <></>
+                )}
+                <Link
+                  href="/tags"
+                  className="dropdown_link"
+                  onClick={() => setToggleDropdown(false)}
+                >
+                  Tags
+                </Link>
+                <Link
+                  href="/warning-types"
+                  className="dropdown_link"
+                  onClick={() => setToggleDropdown(false)}
+                >
+                  Warning Types
+                </Link>
+                <Link
+                  href="/statistics"
+                  className="dropdown_link"
+                  onClick={() => setToggleDropdown(false)}
+                >
+                  Statistics
                 </Link>
                 <button
                   type="button"
