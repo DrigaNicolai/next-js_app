@@ -98,7 +98,7 @@ const Tags = () => {
       )}
       {!tags.length ? (
         <p className="desc text-left">There are no tags</p>
-      ) : (user !== "user" ? (
+      ) : (user !== "user" && session ? (
           <DataTable
             data={tags}
             headers={headers}
